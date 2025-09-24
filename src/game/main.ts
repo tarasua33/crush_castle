@@ -4,28 +4,42 @@ import { Game as MainGame } from './scenes/Game';
 import { MainMenu } from './scenes/MainMenu';
 import { AUTO, Game } from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { GAME_DIMENSIONS } from './GameConfig';
 
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config: Phaser.Types.Core.GameConfig = {
-    type: AUTO,
-    width: 1024,
-    height: 768,
-    parent: 'game-container',
-    backgroundColor: '#028af8',
-    scene: [
-        Boot,
-        Preloader,
-        MainMenu,
-        MainGame,
-        GameOver
-    ]
+  type: AUTO,
+  width: GAME_DIMENSIONS.width,
+  height: GAME_DIMENSIONS.height,
+  parent: 'game-container',
+  backgroundColor: '#028af8',
+  physics: {
+    default: "matter",
+    matter: {
+      gravity: { y: 1, x: 0 },
+      debug: true
+    }
+  },
+  scene: [
+    Boot,
+    Preloader,
+    MainMenu,
+    MainGame,
+    GameOver
+  ],
+  scale: {
+    mode: Phaser.Scale.NONE,
+    autoCenter: Phaser.Scale.NO_CENTER
+  }
 };
 
 const StartGame = (parent: string) => {
-
-    return new Game({ ...config, parent });
-
+  const game = new Game({ ...config, parent });
+  game.scale.resize(window.innerWidth, window.innerHeight);
+  window.addEventListener('resize', () => {
+    game.scale.resize(window.innerWidth, window.innerHeight);
+  });
 }
 
 export default StartGame;
