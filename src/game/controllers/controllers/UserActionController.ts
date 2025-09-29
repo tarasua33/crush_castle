@@ -1,3 +1,4 @@
+import { ConstraintComponent } from "../../components/ConstraintComponent";
 import { PointerComponent } from "../../components/PointerComponent";
 import { IGameView } from "../../factories/GameViewFactory";
 import { Controller, IControllerParams } from "../../libs/controllers/Controller";
@@ -10,6 +11,8 @@ interface IControllerBaseParams extends IControllerParams {
   gameView: IGameView;
   pointerComponent: PointerComponent;
   scene: Phaser.Scene;
+  constraintComponent: ConstraintComponent;
+
 }
 
 export class UserActionController extends Controller<IControllerBaseParams> {
@@ -17,14 +20,7 @@ export class UserActionController extends Controller<IControllerBaseParams> {
   private _endDragStep = new EndDragStep();
   private _dragActionStep = new DragActionStep();
 
-  public start({ gameView, pointerComponent, scene }: IControllerBaseParams): void {
-
-    const constraint = scene.matter.add.constraint(
-      gameView.bullet.body as MatterJS.BodyType,
-      gameView.slingshotPoint as unknown as MatterJS.BodyType,
-      0,
-      0.02);
-
+  public start({ gameView, pointerComponent, constraintComponent, scene }: IControllerBaseParams): void {
     const waitActionSequence = new Sequence();
     waitActionSequence.addStepByStep(this._awaitUserActionStep, {
       scene: scene,
@@ -37,13 +33,14 @@ export class UserActionController extends Controller<IControllerBaseParams> {
       scene,
       bullet: gameView.bullet,
       slingshotPoint: gameView.slingshotPoint,
-      pointerComponent
+      pointerComponent,
+      constraintComponent
     } as DragActionStepParams);
     dragSequence.addStepByStep(this._endDragStep, {
       scene,
       bullet: gameView.bullet,
-      pointerComponent,
-      constraint
+      pointerComponent
+      // constraint
     });
 
     this._mng.start([waitActionSequence, dragSequence]);

@@ -1,14 +1,18 @@
+import { ConstraintComponent } from "../../../components/ConstraintComponent";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
 
-export interface StartFlyStepParams extends BaseStepParams {
+export interface StartStrikeStepParams extends BaseStepParams {
   scene: Phaser.Scene;
   bullet: Phaser.Physics.Matter.Image;
+  constraintComponent: ConstraintComponent;
 }
 
-export class StartFlyStep extends BaseStep<StartFlyStepParams> {
-  public start(params: StartFlyStepParams): void {
+export class StartStrikeStep extends BaseStep<StartStrikeStepParams> {
+  public start(params: StartStrikeStepParams): void {
     this._params = params;
-    const { scene } = params;
+    const { scene, constraintComponent } = params;
+
+    params.scene.matter.world.removeConstraint(constraintComponent.constraint);
 
     scene.matter.world.on("afterupdate", this._worldUpdate, this);
   }

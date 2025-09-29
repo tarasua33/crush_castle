@@ -1,3 +1,4 @@
+import { ConstraintComponent } from "../../components/ConstraintComponent";
 import { PointerComponent } from "../../components/PointerComponent";
 import { MAX_CONSTRAIN } from "../../GameConfig";
 import { BaseStep, BaseStepParams } from "../../libs/controllers/steps/BaseStep";
@@ -7,6 +8,8 @@ export interface DragActionStepParams extends BaseStepParams {
   bullet: Phaser.GameObjects.Image;
   slingshotPoint: Phaser.GameObjects.Image;
   pointerComponent: PointerComponent;
+  constraintComponent: ConstraintComponent;
+
 }
 
 export class DragActionStep extends BaseStep<DragActionStepParams> {
@@ -45,11 +48,12 @@ export class DragActionStep extends BaseStep<DragActionStepParams> {
     const worldPoint = pointer;
 
     const slingshotPoint = this._params.slingshotPoint.body!.position;
-    const bullet = this._params.bullet;
+    const { bullet, constraintComponent } = this._params;
     const dist = Phaser.Math.Distance.Between(slingshotPoint.x, slingshotPoint.y, worldPoint.x, worldPoint.y);
 
     if (dist < 100) {
       bullet.setPosition(worldPoint.x, worldPoint.y);
+      constraintComponent.setPosition(worldPoint.x, worldPoint.y);
     }
     else {
       // const previousPointer = this._previousPointer!;
@@ -57,6 +61,7 @@ export class DragActionStep extends BaseStep<DragActionStepParams> {
       const y = Math.sin(angle) * MAX_CONSTRAIN;
       const x = Math.cos(angle) * MAX_CONSTRAIN;
       bullet.setPosition(slingshotPoint.x + x, slingshotPoint.y + y);
+      constraintComponent.setPosition(slingshotPoint.x + x, slingshotPoint.y + y);
     }
   }
 

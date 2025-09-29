@@ -10,6 +10,8 @@ export const GAME_DIMENSIONS = {
   height: heightGame,
 };
 
+
+
 export const MAX_CONSTRAIN = 100;
 export const MAX_VELOCITY = 50;
 
@@ -22,3 +24,6 @@ export const CASTLE_BASE_X = widthGame * 0.7;
 
 export const SLING_SHOT_Y = CASTLE_BASE_Y - MAX_CONSTRAIN - 60;
 export const SLING_SHOT_X = 400;
+
+// export const CAMERA_EDGE_X = 400;
+// export const CAMERA_EDGE_Y = 200;
