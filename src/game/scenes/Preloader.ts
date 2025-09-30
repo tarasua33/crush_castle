@@ -34,7 +34,10 @@ export class Preloader extends Scene {
     this.load.image('bgTile', 'game/GrassCliffMid.png');
     this.load.image('saw', 'game/Saw.png');
     this.load.image('brick_tile', 'game/brick_tile.png');
-    this.load.image('slingshot_bottom', 'game/slingshotPoint.png');
+    this.load.image('slingshot_bottom', 'game/slingshotPoint_b.png');
+    this.load.image('slingshot_top', 'game/slingshotPoint_t.png');
+    this.load.image('slingshotPoint_point', 'game/slingshotPoint_point.png');
+    this.load.image('rope', 'game/rope.png');
   }
 
   create() {
