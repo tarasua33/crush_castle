@@ -44,7 +44,8 @@ export class StrikeController extends Controller<IControllerBaseParams> {
     strikeSequence.addStepByStep(this._startStrikeStep, {
       scene: scene,
       bullet: gameView.bullet,
-      constraintComponent
+      constraintComponent,
+      slingshotPoint: gameView.slingshotPoint
     } as StartStrikeStepParams);
 
     strikeSequence.addStepByStep(this._endStrikeStep, {

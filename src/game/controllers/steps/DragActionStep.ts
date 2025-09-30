@@ -1,12 +1,13 @@
 import { ConstraintComponent } from "../../components/ConstraintComponent";
 import { PointerComponent } from "../../components/PointerComponent";
 import { MAX_CONSTRAIN } from "../../GameConfig";
+import { Slingshot } from "../../gameObjects/Slingshot";
 import { BaseStep, BaseStepParams } from "../../libs/controllers/steps/BaseStep";
 
 export interface DragActionStepParams extends BaseStepParams {
   scene: Phaser.Scene;
   bullet: Phaser.GameObjects.Image;
-  slingshotPoint: Phaser.GameObjects.Image;
+  slingshotPoint: Slingshot;
   pointerComponent: PointerComponent;
   constraintComponent: ConstraintComponent;
 
@@ -47,21 +48,28 @@ export class DragActionStep extends BaseStep<DragActionStepParams> {
   private _onDrag(pointer: Phaser.Math.Vector2): void {
     const worldPoint = pointer;
 
-    const slingshotPoint = this._params.slingshotPoint.body!.position;
+    const slingshotContainer = this._params.slingshotPoint;
+    const slingshotPoint = this._params.slingshotPoint.slingshotPoint.body!.position;
     const { bullet, constraintComponent } = this._params;
     const dist = Phaser.Math.Distance.Between(slingshotPoint.x, slingshotPoint.y, worldPoint.x, worldPoint.y);
 
-    if (dist < 100) {
+    const angle = Math.atan2(worldPoint.y - slingshotPoint.y, worldPoint.x - slingshotPoint.x);
+
+    if (dist < MAX_CONSTRAIN) {
       bullet.setPosition(worldPoint.x, worldPoint.y);
       constraintComponent.setPosition(worldPoint.x, worldPoint.y);
+
+      slingshotContainer.rotateSlingshotPoint(dist);
+      slingshotContainer.rotateRope(angle, dist);
     }
     else {
       // const previousPointer = this._previousPointer!;
-      const angle = Math.atan2(worldPoint.y - slingshotPoint.y, worldPoint.x - slingshotPoint.x);
       const y = Math.sin(angle) * MAX_CONSTRAIN;
       const x = Math.cos(angle) * MAX_CONSTRAIN;
       bullet.setPosition(slingshotPoint.x + x, slingshotPoint.y + y);
       constraintComponent.setPosition(slingshotPoint.x + x, slingshotPoint.y + y);
+      slingshotContainer.rotateSlingshotPoint(MAX_CONSTRAIN);
+      slingshotContainer.rotateRope(angle, MAX_CONSTRAIN);
     }
   }
 

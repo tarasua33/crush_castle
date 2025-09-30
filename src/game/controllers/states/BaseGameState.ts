@@ -24,7 +24,7 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
 
     constraintComponent.createConstraint(
       gameView.bullet.body as MatterJS.BodyType,
-      gameView.slingshotPoint as unknown as MatterJS.BodyType,
+      gameView.slingshotPoint.slingshotPoint as unknown as MatterJS.BodyType,
       scene);
 
     const userActionController = this._userActionController;
@@ -44,7 +44,7 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
 
     constraintComponent.createConstraint(
       gameView.bullet.body as MatterJS.BodyType,
-      gameView.slingshotPoint as unknown as MatterJS.BodyType,
+      gameView.slingshotPoint.slingshotPoint as unknown as MatterJS.BodyType,
       scene);
 
     const userActionController = this._userActionController;

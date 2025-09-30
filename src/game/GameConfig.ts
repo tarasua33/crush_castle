@@ -12,7 +12,7 @@ export const GAME_DIMENSIONS = {
 
 
 
-export const MAX_CONSTRAIN = 100;
+export const MAX_CONSTRAIN = 150;
 export const MAX_VELOCITY = 50;
 
 export const PLATFORM_HEIGHT = 128;

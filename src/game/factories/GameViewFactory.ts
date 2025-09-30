@@ -4,6 +4,7 @@ interface IBuildConfig {
   scene: Phaser.Scene;
 }
 
+import { Slingshot } from "../gameObjects/Slingshot";
 import { AbstractBaseFactory } from "../libs/factories/AbstractBaseFactory";
 import { BulletFactory } from "./BulletFactory";
 import { CastlesFactory } from "./CastlesFactory";
@@ -15,7 +16,7 @@ export interface IGameView {
   bg: Phaser.GameObjects.Image;
   ground: Phaser.GameObjects.TileSprite;
   bullet: Phaser.Physics.Matter.Image;
-  slingshotPoint: Phaser.Physics.Matter.Image;
+  slingshotPoint: Slingshot;
   bricks: Phaser.Physics.Matter.Image[];
 }
 
