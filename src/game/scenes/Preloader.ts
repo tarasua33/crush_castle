@@ -38,6 +38,9 @@ export class Preloader extends Scene {
     this.load.image('slingshot_top', 'game/slingshotPoint_t.png');
     this.load.image('slingshotPoint_point', 'game/slingshotPoint_point.png');
     this.load.image('rope', 'game/rope.png');
+    this.load.image('chest', 'game/chest.png');
+    this.load.image('enemy', 'game/enemy.png');
+    this.load.image('mace', 'game/Mace.png');
   }
 
   create() {
