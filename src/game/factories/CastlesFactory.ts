@@ -1,4 +1,4 @@
-import { CASTLE_BASE_X, CASTLE_BASE_Y } from "../GameConfig";
+import { CASTLE_BASE_X, CASTLE_BASE_Y, CASTLE_BRICK_H, CASTLE_BRICK_W } from "../GameConfig";
 import { AbstractStandardFactory } from "../libs/factories/AbstractStandardFactory";
 
 interface IBuildConfig {
@@ -16,8 +16,8 @@ export class CastlesFactory extends AbstractStandardFactory<Phaser.Physics.Matte
         CASTLE_BASE_Y + d.y,
         'brick_tile', undefined, { label: "block" }).setBody({
           type: "rectangle",
-          width: 48,
-          height: 16
+          width: CASTLE_BRICK_W,
+          height: CASTLE_BRICK_H
         });
       brick.rotation = d.rotation;
 

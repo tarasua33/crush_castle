@@ -1,5 +1,5 @@
 import { ConstraintComponent } from "../../../components/ConstraintComponent";
-import { MAX_CONSTRAIN } from "../../../GameConfig";
+import { MAX_CONSTRAIN, MAX_VELOCITY } from "../../../GameConfig";
 import { Slingshot } from "../../../gameObjects/Slingshot";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
 
@@ -15,10 +15,15 @@ export class StartStrikeStep extends BaseStep<StartStrikeStepParams> {
   private _previousDist = 150;
 
   public start(params: StartStrikeStepParams): void {
-    this._params = params;
+    const { bullet } = this._params = params;
     const { scene, constraintComponent } = params;
     this._previousDist = MAX_CONSTRAIN + 10;
     params.scene.matter.world.removeConstraint(constraintComponent.constraint);
+    const v = bullet.body!.velocity;
+    bullet.setVelocity(
+      Phaser.Math.Clamp(v.x, -MAX_VELOCITY, MAX_VELOCITY),
+      Phaser.Math.Clamp(v.y, -MAX_VELOCITY, MAX_VELOCITY)
+    );
 
     scene.matter.world.on("afterupdate", this._worldUpdate, this);
   }
