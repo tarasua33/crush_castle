@@ -10,10 +10,9 @@ export const GAME_DIMENSIONS = {
   height: heightGame,
 };
 
-
-
 export const MAX_CONSTRAIN = 150;
 export const MAX_VELOCITY = 70;
+export const TRANSFORM_ENEMY = 62;
 
 export const PLATFORM_HEIGHT = 128;
 

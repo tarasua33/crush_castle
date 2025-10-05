@@ -9,6 +9,7 @@ import { AbstractBaseFactory } from "../libs/factories/AbstractBaseFactory";
 import { BulletFactory } from "./BulletFactory";
 import { CastlesFactory } from "./CastlesFactory";
 import { EnemiesFactory } from "./EnemiesFactory";
+import { ExplosionParticlesFactory } from "./ExplosionParticlesFactory";
 import { GameBgFactory } from "./GameBgFactory";
 import { PlatformsFactory } from "./PlatformsFactory";
 import { SlingshotPointFactory } from "./SlingshotPointFactory";
@@ -20,6 +21,7 @@ export interface IGameView {
   slingshotPoint: Slingshot;
   bricks: Phaser.Physics.Matter.Image[];
   enemies: Phaser.GameObjects.Group;
+  explosionParticles: Phaser.GameObjects.Particles.ParticleEmitter;
 }
 
 export class GameViewFactory extends AbstractBaseFactory {
@@ -32,6 +34,7 @@ export class GameViewFactory extends AbstractBaseFactory {
     const castlesFactory = new CastlesFactory();
     const bgFactory = new GameBgFactory();
     const enemiesFactory = new EnemiesFactory();
+    const explosionParticlesFactory = new ExplosionParticlesFactory()
 
     const view: IGameView = {
       bg: bgFactory.buildUi({ scene }),
@@ -39,7 +42,8 @@ export class GameViewFactory extends AbstractBaseFactory {
       bullet: bulletFactory.buildUi({ scene }),
       slingshotPoint: slingshotPointFactory.buildUi({ scene }),
       bricks: castlesFactory.buildUi({ scene }),
-      enemies: enemiesFactory.buildUi({ scene })
+      enemies: enemiesFactory.buildUi({ scene }),
+      explosionParticles: explosionParticlesFactory.buildUi({ scene })
     };
 
     return view;
