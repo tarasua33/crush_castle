@@ -11,7 +11,7 @@ export class ExplosionParticlesFactory extends AbstractStandardFactory<Phaser.Ga
       y: 0,
       speed: { min: -300, max: 300 },
       angle: { min: 0, max: 360 },
-      lifespan: 1800,
+      lifespan: 1100,
       scale: { start: 0.5, end: 0 },
       alpha: { start: 1, end: 0.75 },
       gravityY: 400,

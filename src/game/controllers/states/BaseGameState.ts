@@ -4,6 +4,9 @@ import { IGameView } from "../../factories/GameViewFactory";
 import { BaseState, BaseStateParams } from "../../libs/controllers/BaseState";
 import { EVENTS } from "../../libs/events/Events";
 import { Game } from "../../scenes/Game";
+import { HideLvlController } from "../controllers/HideLvlController";
+import { ResetRoundController } from "../controllers/ResetRoundController";
+import { ShowLvlController } from "../controllers/ShowLvlController";
 import { StrikeController } from "../controllers/StrikeController";
 import { UserActionController } from "../controllers/UserActionController";
 
@@ -17,38 +20,63 @@ interface IBaseGameStateParams extends BaseStateParams {
 export class BaseGameState extends BaseState<IBaseGameStateParams> {
   private _userActionController = new UserActionController();
   private _strikeController = new StrikeController();
+  private _showLvlController = new ShowLvlController();
+  private _resetRoundController = new ResetRoundController();
+  private _hideLvlController = new HideLvlController();
+  private _firstRound = true;
 
   public start(params: IBaseGameStateParams): void {
     this._params = params;
-    const { gameView, pointerComponent, scene, constraintComponent } = params;
+    this._playShowLvl();
+  }
 
-    constraintComponent.createConstraint(
-      gameView.bullet.body as MatterJS.BodyType,
-      gameView.slingshotPoint.slingshotPoint as unknown as MatterJS.BodyType,
-      scene);
-
-    const userActionController = this._userActionController;
-    userActionController.completeStepSignal.once(EVENTS.COMPLETE, this._playStrike, this);
-    userActionController.start({ gameView, pointerComponent, constraintComponent, scene });
+  private _playShowLvl(): void {
+    const { gameView, scene } = this._params;
+    this._firstRound = true;
+    const showLvlController = this._showLvlController;
+    showLvlController.completeStepSignal.once(EVENTS.COMPLETE, this._playNextRound, this);
+    showLvlController.start({ gameView, scene });
   }
 
   private _playStrike(): void {
+    this._firstRound = false;
     const strikeController = this._strikeController;
     strikeController.completeStepSignal.once(EVENTS.COMPLETE, this._playResult, this);
     const { scene, gameView, constraintComponent } = this._params;
-    this._strikeController.start({ scene, gameView, constraintComponent });
+    strikeController.start({ scene, gameView, constraintComponent });
   }
 
-  private _playResult(): void {
-    const { gameView, pointerComponent, constraintComponent, scene } = this._params;
+  private _playResult(win: boolean): void {
+    if (win) {
+      this._hideLvl();
+    }
+    else {
+      this._resetRound();
+    }
+  }
 
-    constraintComponent.createConstraint(
-      gameView.bullet.body as MatterJS.BodyType,
-      gameView.slingshotPoint.slingshotPoint as unknown as MatterJS.BodyType,
-      scene);
+  private _hideLvl(): void {
+    console.log("WIN");
+    const { gameView, scene } = this._params;
+
+    const hideLvlController = this._hideLvlController;
+    hideLvlController.completeStepSignal.once(EVENTS.COMPLETE, this._playShowLvl, this);
+    hideLvlController.start({ gameView, scene });
+  }
+
+  private _resetRound(): void {
+    const { gameView, scene, constraintComponent } = this._params;
+
+    const resetRoundController = this._resetRoundController;
+    resetRoundController.completeStepSignal.once(EVENTS.COMPLETE, this._playNextRound, this);
+    resetRoundController.start({ gameView, constraintComponent, scene });
+  }
+
+  private _playNextRound(): void {
+    const { gameView, pointerComponent, constraintComponent, scene } = this._params;
 
     const userActionController = this._userActionController;
     userActionController.completeStepSignal.once(EVENTS.COMPLETE, this._playStrike, this);
-    userActionController.start({ gameView, pointerComponent, constraintComponent, scene });
+    userActionController.start({ gameView, pointerComponent, constraintComponent, scene, isFirst: this._firstRound });
   }
 }

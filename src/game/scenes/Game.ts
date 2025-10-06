@@ -85,4 +85,8 @@ export class Game extends Scene {
   public zoomTo(scale: number, duration: number, ease: string): void {
     this.camera.zoomTo(this._scale * scale, duration, ease);
   }
+
+  public setZoom(scale: number): void {
+    this.cameras.main.setZoom(this._scale * scale);
+  }
 }

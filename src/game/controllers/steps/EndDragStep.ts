@@ -21,8 +21,6 @@ export class EndDragStep extends BaseStep<EndDragStepParams> {
 
   private _release() {
     if (this._pointerComponent.isDragging) {
-      // const params = this._params;
-      // const bullet = params.bullet;
       this._pointerComponent.endDrag();
       this._pointerComponent.pointer = undefined;
 

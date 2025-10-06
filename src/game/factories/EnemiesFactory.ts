@@ -24,9 +24,11 @@ export class EnemiesFactory extends AbstractStandardFactory<Phaser.GameObjects.G
         "enemy"
       );
       enemy.setScale(-1, 1);
-      enemy.spawn(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
+      enemy.setPosition(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
+      // enemy.spawn(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
 
       enemyPool.add(enemy);
+      enemyPool.killAndHide(enemy);
     }
 
     // for (let i = 0; i < 1; i++) {

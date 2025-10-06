@@ -16,14 +16,15 @@ export class Enemy extends Phaser.Physics.Matter.Image {
 
   public spawn(x: number, y: number): void {
     this.setPosition(x, y);
+    this.angle = 0;
 
     this._spawnX = x;
     this._spawnY = y;
 
     this.visible = true;
     this.active = true;
-
-    this._scene.matter.world.add(this);
+    console.log("@@@ --- ", "SPAWN")
+    this._scene.matter.world.add(this.body!);
   }
 
   public checkTransform(enemyPool: Phaser.GameObjects.Group): void {
@@ -35,6 +36,7 @@ export class Enemy extends Phaser.Physics.Matter.Image {
       this.active = false;
 
       this._scene.matter.world.remove(this);
+      this._scene.matter.world.remove(this.body!);
     }
   }
 }

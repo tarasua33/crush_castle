@@ -21,7 +21,6 @@ export class CastlesFactory extends AbstractStandardFactory<Phaser.Physics.Matte
         });
       brick.rotation = d.rotation;
 
-      console.log(brick.y);
       bricks.push(brick);
     }
 

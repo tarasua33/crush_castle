@@ -21,7 +21,6 @@ export class PlatformsFactory extends AbstractStandardFactory<Phaser.GameObjects
       label: "ground"
     });
 
-    console.log("ground", ground.y - ground.height / 2);
     return ground;
   }
 }

@@ -3,10 +3,10 @@ import { IGameView } from "../../factories/GameViewFactory";
 import { Controller, IControllerParams } from "../../libs/controllers/Controller";
 import { Sequence } from "../../libs/controllers/Sequence";
 import { AwaitStep, AwaitStepParams } from "../../libs/controllers/steps/AwaitStep";
+import { EVENTS } from "../../libs/events/Events";
 import { AwaitStrikeStep } from "../steps/strike/AwaitStrikeStep";
 import { EndStrikeStep, EndStrikeStepParams } from "../steps/strike/EndStrikeStep";
 import { PreparationStrikeStep, PreparationStrikeStepParams } from "../steps/strike/PreparationStrikeStep";
-import { ResetBulletStep, ResetBulletStepParams } from "../steps/strike/ResetBulletStep";
 import { StartStrikeStep, StartStrikeStepParams } from "../steps/strike/StartStrikeStep";
 
 interface IControllerBaseParams extends IControllerParams {
@@ -16,14 +16,15 @@ interface IControllerBaseParams extends IControllerParams {
 }
 
 export class StrikeController extends Controller<IControllerBaseParams> {
-  private _resetBulletStep = new ResetBulletStep();
   private _endStrikeStep = new EndStrikeStep();
   private _startStrikeStep = new StartStrikeStep();
   private _awaitStep = new AwaitStep();
   private _preparationStrikeStep = new PreparationStrikeStep();
   private _awaitStrikeStep = new AwaitStrikeStep();
+  private _isWin: boolean = false;
 
   public start({ gameView, scene, constraintComponent }: IControllerBaseParams): void {
+    this._isWin = false;
 
     // preStrikeSequence
     const preStrikeSequence = new Sequence();
@@ -48,7 +49,9 @@ export class StrikeController extends Controller<IControllerBaseParams> {
       slingshotPoint: gameView.slingshotPoint
     } as StartStrikeStepParams);
 
-    strikeSequence.addStepByStep(this._endStrikeStep, {
+    const endStrikeStep = this._endStrikeStep;
+    endStrikeStep.targetEnemySignal.on(EVENTS.EXPLOSION, this._onTarget, this);
+    strikeSequence.addStepByStep(endStrikeStep, {
       scene: scene,
       enemyPool: gameView.enemies,
       explosionParticles: gameView.explosionParticles
@@ -59,12 +62,14 @@ export class StrikeController extends Controller<IControllerBaseParams> {
       delay: 2000
     } as AwaitStepParams);
 
-    strikeSequence.addStepByStep(this._resetBulletStep, {
-      bullet: gameView.bullet,
-      scene
-
-    } as ResetBulletStepParams);
-
     this._mng.start([preStrikeSequence, strikeSequence]);
+  }
+
+  private _onTarget(): void {
+    this._isWin = true;
+  }
+
+  protected _onComplete(): void {
+    super._onComplete(this._isWin)
   }
 }
