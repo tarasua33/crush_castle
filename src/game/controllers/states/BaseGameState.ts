@@ -31,6 +31,7 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
   }
 
   private _playShowLvl(): void {
+    this._models.enemyModel.resetLvlEnemies();
     const { gameView, scene } = this._params;
     this._firstRound = true;
     const showLvlController = this._showLvlController;

@@ -66,10 +66,15 @@ export class StrikeController extends Controller<IControllerBaseParams> {
   }
 
   private _onTarget(): void {
-    this._isWin = true;
+    this._models.enemyModel.lvlEnemies--;
+
+    if (this._models.enemyModel.lvlEnemies <= 0) {
+      this._isWin = true;
+    }
   }
 
   protected _onComplete(): void {
+    this._endStrikeStep.targetEnemySignal.off(EVENTS.EXPLOSION, this._onTarget, this);
     super._onComplete(this._isWin)
   }
 }

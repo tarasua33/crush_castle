@@ -12,9 +12,13 @@ export class Enemy extends Phaser.Physics.Matter.Image {
     super(scene.matter.world, x, y, texture);
     this._scene = scene;
     scene.add.existing(this);
+
+    scene.matter.world.remove(this);
+    scene.matter.world.remove(this.body!);
   }
 
-  public spawn(x: number, y: number): void {
+  public spawn(x: number, y: number, type: string): void {
+    this.setTexture(type);
     this.setPosition(x, y);
     this.angle = 0;
 
@@ -35,8 +39,9 @@ export class Enemy extends Phaser.Physics.Matter.Image {
       this.visible = false;
       this.active = false;
 
-      this._scene.matter.world.remove(this);
-      this._scene.matter.world.remove(this.body!);
+      const scene = this._scene;
+      scene.matter.world.remove(this);
+      scene.matter.world.remove(this.body!);
     }
   }
 }

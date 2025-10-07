@@ -27,8 +27,15 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
       i++;
     }
 
-    for (const enemy of (enemyPool.getChildren() as Enemy[])) {
-      enemy.spawn(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
+    // for (const enemy of (enemyPool.getChildren() as Enemy[])) {
+    //   enemy.spawn(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
+    // }
+    const enemies: { x: number, y: number, type: string }[] = scene.cache.json.get("enemies");
+
+    for (let i = 0; i < enemies.length; i++) {
+      const enemyData = enemies[i];
+      const enemy = enemyPool.get() as Enemy;
+      enemy.spawn(CASTLE_BASE_X + enemyData.x, CASTLE_BASE_Y + enemyData.y, enemyData.type);
     }
 
     bullet.setPosition(SLING_SHOT_X, SLING_SHOT_Y);

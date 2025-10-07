@@ -8,19 +8,19 @@ interface IBuildConfig {
 
 export class EnemiesFactory extends AbstractStandardFactory<Phaser.GameObjects.Group> {
   public buildUi({ scene }: IBuildConfig): Phaser.GameObjects.Group {
-    // const data: { x: number, y: number, rotation: number }[] = scene.cache.json.get("castles");
+    const maxEnemies = this._models.enemyModel.maxEnemies;
 
     const enemyPool = scene.add.group({
       classType: Enemy,
-      maxSize: 3
+      maxSize: maxEnemies
     });
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < maxEnemies; i++) {
       // const enemy = scene.matter.add.image(
       const enemy = new Enemy(
         scene,
-        CASTLE_BASE_X + 48,
-        CASTLE_BASE_Y - 32,
+        0,
+        0,
         "enemy"
       );
       enemy.setScale(-1, 1);
