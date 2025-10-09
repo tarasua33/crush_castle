@@ -1,6 +1,7 @@
 import { CASTLE_BASE_X, CASTLE_BASE_Y, GAME_DIMENSIONS, SLING_SHOT_X, SLING_SHOT_Y } from "../../../GameConfig";
 import { Enemy } from "../../../gameObjects/Enemy";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
+import { ILvl } from "../../../models/EnemyModel";
 import { Game } from "../../../scenes/Game";
 
 export interface SpawnLvlStepParams extends BaseStepParams {
@@ -8,31 +9,40 @@ export interface SpawnLvlStepParams extends BaseStepParams {
   enemyPool: Phaser.GameObjects.Group;
   bullet: Phaser.Physics.Matter.Image;
   bricks: Phaser.Physics.Matter.Image[];
+  lvl: ILvl;
 }
 
 export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
   public start(params: SpawnLvlStepParams): void {
     this._params = params;
-    const { bullet, scene, enemyPool, bricks } = params;
-    const lvls = scene.cache.json.get("lvls")[0];
+    const { bullet, scene, enemyPool, bricks, lvl } = params;
 
-    const castle: { x: number, y: number, rotation: number }[] = lvls.castle;
+    // scene.matter.world = new Phaser.Physics.Matter.World(scene, {
+    //   gravity: { y: 1, x: 0 },
+    //   debug: true
+    // });
+
+    const castle = lvl.castle;
     let i = 0;
     for (const d of castle) {
       const brick = bricks[i];
-      brick.setPosition(CASTLE_BASE_X + d.x, CASTLE_BASE_Y + d.y);
       brick.rotation = d.rotation;
+      brick.setPosition(CASTLE_BASE_X + d.x, CASTLE_BASE_Y + d.y);
+
       brick.visible = true;
       brick.active = true;
       brick.setSensor(false);
+      brick.setIgnoreGravity(false);
       brick.setVelocity(0);
       brick.setAngularSpeed(0);
       brick.setAngularVelocity(0);
 
+      scene.matter.world.add(brick.body!);
+
       i++;
     }
 
-    const enemies: { x: number, y: number, type: string }[] = lvls.enemies;
+    const enemies = lvl.enemies;
     for (let i = 0; i < enemies.length; i++) {
       const enemyData = enemies[i];
       const enemy = enemyPool.get() as Enemy;

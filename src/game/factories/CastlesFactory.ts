@@ -19,8 +19,16 @@ export class CastlesFactory extends AbstractStandardFactory<Phaser.Physics.Matte
         }, {
           isSensor: true
         });
+
+      brick.visible = false;
+      brick.active = false;
+      brick.setSensor(true);
+      brick.setIgnoreGravity(true);
       brick.rotation = 0;
-      brick.body!.gameObject = brick
+      brick.body!.gameObject = brick;
+
+      scene.matter.world.remove(brick);
+      scene.matter.world.remove(brick.body!);
 
       bricks.push(brick);
     }

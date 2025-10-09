@@ -3,6 +3,7 @@ import { PointerComponent } from "../../components/PointerComponent";
 import { IGameView } from "../../factories/GameViewFactory";
 import { BaseState, BaseStateParams } from "../../libs/controllers/BaseState";
 import { EVENTS } from "../../libs/events/Events";
+import { ILvl } from "../../models/EnemyModel";
 import { Game } from "../../scenes/Game";
 import { HideLvlController } from "../controllers/HideLvlController";
 import { ResetRoundController } from "../controllers/ResetRoundController";
@@ -31,12 +32,14 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
   }
 
   private _playShowLvl(): void {
-    this._models.enemyModel.resetLvlEnemies();
+    const lvl = (this._params.scene.cache.json.get("lvls") as ILvl[])[this._models.enemyModel.lvl];
+
+    this._models.enemyModel.resetLvlEnemies(lvl.targets);
     const { gameView, scene } = this._params;
     this._firstRound = true;
     const showLvlController = this._showLvlController;
     showLvlController.completeStepSignal.once(EVENTS.COMPLETE, this._playNextRound, this);
-    showLvlController.start({ gameView, scene });
+    showLvlController.start({ gameView, scene, lvl });
   }
 
   private _playStrike(): void {
@@ -58,6 +61,8 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
 
   private _hideLvl(): void {
     console.log("WIN");
+    this._models.enemyModel.increaseLvl();
+
     const { gameView, scene } = this._params;
 
     const hideLvlController = this._hideLvlController;
