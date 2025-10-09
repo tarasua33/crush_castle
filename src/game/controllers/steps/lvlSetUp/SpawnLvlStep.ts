@@ -14,28 +14,29 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
   public start(params: SpawnLvlStepParams): void {
     this._params = params;
     const { bullet, scene, enemyPool, bricks } = params;
+    const lvls = scene.cache.json.get("lvls")[0];
 
-    const data: { x: number, y: number, rotation: number }[] = scene.cache.json.get("castles");
+    const castle: { x: number, y: number, rotation: number }[] = lvls.castle;
     let i = 0;
-    for (const d of data) {
+    for (const d of castle) {
       const brick = bricks[i];
       brick.setPosition(CASTLE_BASE_X + d.x, CASTLE_BASE_Y + d.y);
       brick.rotation = d.rotation;
       brick.visible = true;
       brick.active = true;
+      brick.setSensor(false);
+      brick.setVelocity(0);
+      brick.setAngularSpeed(0);
+      brick.setAngularVelocity(0);
 
       i++;
     }
 
-    // for (const enemy of (enemyPool.getChildren() as Enemy[])) {
-    //   enemy.spawn(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);
-    // }
-    const enemies: { x: number, y: number, type: string }[] = scene.cache.json.get("enemies");
-
+    const enemies: { x: number, y: number, type: string }[] = lvls.enemies;
     for (let i = 0; i < enemies.length; i++) {
       const enemyData = enemies[i];
       const enemy = enemyPool.get() as Enemy;
-      enemy.spawn(CASTLE_BASE_X + enemyData.x, CASTLE_BASE_Y + enemyData.y, enemyData.type);
+      enemy.spawn(CASTLE_BASE_X + enemyData.x, CASTLE_BASE_Y + enemyData.y, enemyData.type, enemyPool);
     }
 
     bullet.setPosition(SLING_SHOT_X, SLING_SHOT_Y);

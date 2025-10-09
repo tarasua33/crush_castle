@@ -11,7 +11,7 @@ export class PlatformsFactory extends AbstractStandardFactory<Phaser.GameObjects
     const ground = scene.add.tileSprite(
       GAME_DIMENSIONS.width / 2,
       PLATFORM_Y - PLATFORM_HEIGHT / 2,
-      GAME_DIMENSIONS.width * 2,
+      GAME_DIMENSIONS.width * 4,
       PLATFORM_HEIGHT,
       "bgTile"
     );

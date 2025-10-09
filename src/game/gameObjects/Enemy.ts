@@ -4,6 +4,7 @@ import { EVENTS } from "../libs/events/Events";
 export class Enemy extends Phaser.Physics.Matter.Image {
   public eventSignal = new Phaser.Events.EventEmitter();
 
+  private _enemyPool: Phaser.GameObjects.Group;
   private _scene: Phaser.Scene;
   private _spawnX = 0;
   private _spawnY = 0;
@@ -15,9 +16,11 @@ export class Enemy extends Phaser.Physics.Matter.Image {
 
     scene.matter.world.remove(this);
     scene.matter.world.remove(this.body!);
+
+    (this.body as MatterJS.BodyType).gameObject = this;
   }
 
-  public spawn(x: number, y: number, type: string): void {
+  public spawn(x: number, y: number, type: string, enemyPool: Phaser.GameObjects.Group): void {
     this.setTexture(type);
     this.setPosition(x, y);
     this.angle = 0;
@@ -27,21 +30,36 @@ export class Enemy extends Phaser.Physics.Matter.Image {
 
     this.visible = true;
     this.active = true;
-    console.log("@@@ --- ", "SPAWN")
+
+    this._enemyPool = enemyPool;
     this._scene.matter.world.add(this.body!);
   }
 
-  public checkTransform(enemyPool: Phaser.GameObjects.Group): void {
+  public checkTransform(): void {
     if (Phaser.Math.Distance.Between(this._spawnX, this._spawnY, this.x, this.y) > TRANSFORM_ENEMY) {
-      this.eventSignal.emit(EVENTS.EXPLOSION, [this.x, this.y]);
+      this._destroy();
+    }
+  }
 
-      enemyPool.killAndHide(this);
-      this.visible = false;
-      this.active = false;
+  private _destroy(): void {
+    this.eventSignal.emit(EVENTS.EXPLOSION, [this.x, this.y]);
 
-      const scene = this._scene;
-      scene.matter.world.remove(this);
-      scene.matter.world.remove(this.body!);
+    this.setVelocity(0);
+    this.setAngularSpeed(0);
+    this.setAngularVelocity(0);
+
+    this._enemyPool.killAndHide(this);
+    this.visible = false;
+    this.active = false;
+
+    const scene = this._scene;
+    scene.matter.world.remove(this);
+    scene.matter.world.remove(this.body!);
+  }
+
+  public hit(): void {
+    if (this.active) {
+      this._destroy();
     }
   }
 }

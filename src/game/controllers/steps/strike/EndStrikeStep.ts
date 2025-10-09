@@ -38,7 +38,7 @@ export class EndStrikeStep extends BaseStep<EndStrikeStepParams> {
 
     for (const enemy of (enemyPool.getChildren() as Enemy[])) {
       if (enemy.active) {
-        enemy.checkTransform(enemyPool);
+        enemy.checkTransform();
       }
     }
 

@@ -26,8 +26,7 @@ export class Preloader extends Scene {
 
   preload() {
     //  Load the assets for the game - Replace with your own assets
-    this.load.json("castles", "data/castles.json");
-    this.load.json("enemies", "data/enemies.json");
+    this.load.json("lvls", "data/lvls.json");
 
     this.load.setPath('assets');
     this.load.image('gameBg', 'game/sky.png');
