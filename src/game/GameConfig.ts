@@ -10,11 +10,13 @@ export const GAME_DIMENSIONS = {
   height: heightGame,
 };
 
+export const MAX_MOUNTAINS_LVL = 3;
 export const MAX_CONSTRAIN = 150;
 export const MAX_VELOCITY = 70;
 export const TRANSFORM_ENEMY = 62;
 
 export const PLATFORM_HEIGHT = 128;
+export const PLATFORM_TILE_WIDTH = 128;
 
 export const PLATFORM_Y = heightGame * 0.9;
 
@@ -24,7 +26,7 @@ export const CASTLE_BRICK_W = 96;
 export const CASTLE_BRICK_H = 32;
 
 export const SLING_SHOT_Y = CASTLE_BASE_Y - MAX_CONSTRAIN - 60;
-export const SLING_SHOT_X = 325;
+export const SLING_SHOT_X = 375;
 
 export const BULLET_MASS = 20;
 

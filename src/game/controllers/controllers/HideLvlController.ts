@@ -2,7 +2,7 @@ import { IGameView } from "../../factories/GameViewFactory";
 import { Controller, IControllerParams } from "../../libs/controllers/Controller";
 import { Sequence } from "../../libs/controllers/Sequence";
 import { HideLvlStep, HideLvlStepParams } from "../steps/lvlSetUp/HideLvlStep";
-import { ResetEnemyStep, ResetEnemyStepParams } from "../steps/lvlSetUp/ResetEnemyStep";
+import { ResetLvlStep, ResetLvlStepParams } from "../steps/lvlSetUp/ResetLvlStep";
 
 interface IControllerBaseParams extends IControllerParams {
   gameView: IGameView;
@@ -11,7 +11,7 @@ interface IControllerBaseParams extends IControllerParams {
 
 export class HideLvlController extends Controller<IControllerBaseParams> {
   private _hideLvlStep = new HideLvlStep();
-  private _resetEnemyStep = new ResetEnemyStep();
+  private _resetLvlStep = new ResetLvlStep();
 
   public start({ gameView, scene }: IControllerBaseParams): void {
 
@@ -22,12 +22,13 @@ export class HideLvlController extends Controller<IControllerBaseParams> {
       duration: 500,
     } as HideLvlStepParams);
 
-    hideSequence.addStepByStep(this._resetEnemyStep, {
+    hideSequence.addStepByStep(this._resetLvlStep, {
       scene: scene,
       bullet: gameView.bullet,
       enemyPool: gameView.enemies,
-      bricks: gameView.bricks
-    } as ResetEnemyStepParams);
+      bricks: gameView.bricks,
+      mountains: gameView.mountains
+    } as ResetLvlStepParams);
 
     this._mng.start([hideSequence]);
   }

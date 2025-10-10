@@ -1,10 +1,11 @@
 const LVL_ENEMIES = 1;
-const MAX_LVL = 3;
+const MAX_LVL = 12;
 
 export interface ILvl {
   targets: number;
   enemies: { x: number, y: number, type: string }[];
   castle: { x: number, y: number, rotation: number }[];
+  mountains: number;
 }
 
 export class EnemyModel {

@@ -24,7 +24,8 @@ export class ShowLvlController extends Controller<IControllerBaseParams> {
       bullet: gameView.bullet,
       enemyPool: gameView.enemies,
       bricks: gameView.bricks,
-      lvl
+      lvl,
+      mountains: gameView.mountains
     } as SpawnLvlStepParams);
 
     showSequence.addStepByStep(this._showLvlStep, {
