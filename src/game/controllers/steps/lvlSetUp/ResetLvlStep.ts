@@ -17,23 +17,11 @@ export class ResetLvlStep extends BaseStep<ResetLvlStepParams> {
     this._params = params;
     const { bullet, enemyPool, bricks, mountains, scene } = params;
 
+    scene.matter.world.pause();
+
     for (const brick of (bricks.getChildren() as CastleBrick[])) {
       brick.hideObject();
     }
-    // for (const brick of bricks) {
-    //   brick.visible = false;
-    //   brick.active = false;
-    //   brick.setSensor(true);
-    //   brick.setIgnoreGravity(true);
-    //   brick.setVelocity(0);
-    //   brick.setAngularSpeed(0);
-    //   brick.setAngularVelocity(0);
-    //   brick.x = 0;
-    //   brick.y = 0;
-
-    //   scene.matter.world.remove(brick);
-    //   scene.matter.world.remove(brick.body!);
-    // }
 
     for (const enemy of (enemyPool.getChildren() as Enemy[])) {
       enemyPool.killAndHide(enemy);

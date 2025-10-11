@@ -40,6 +40,9 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
         CASTLE_BASE_Y - lvl.mountains * PLATFORM_HEIGHT + d.y,
         d.rotation
       );
+
+      // console.log((brick.body! as any));
+      console.log((brick.body! as any).motion);
     }
 
     const enemies = lvl.enemies;
@@ -55,6 +58,9 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
 
     bullet.setPosition(SLING_SHOT_X, SLING_SHOT_Y);
     bullet.setStatic(true);
+
+    // scene.matter.world.resume();
+    scene.time.delayedCall(50, () => scene.matter.world.resume());
 
     scene.camera.stopFollow();
     scene.camera.centerOn(GAME_DIMENSIONS.width / 2, GAME_DIMENSIONS.height / 2);

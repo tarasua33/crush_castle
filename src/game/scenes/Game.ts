@@ -14,6 +14,8 @@ export class Game extends Scene {
   }
 
   create() {
+    this.matter.world.engine.positionIterations = 4;
+
     this.camera = this.cameras.main;
     // this.camera.setBackgroundColor(0x00ff00);
 

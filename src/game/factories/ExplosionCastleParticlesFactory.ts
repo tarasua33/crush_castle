@@ -18,7 +18,7 @@ export class ExplosionCastleParticlesFactory extends AbstractStandardFactory<Pha
       blendMode: 'ADD',
       emitting: false,
       // tint: [0xff0000, 0x00ff00, 0x0000ff],
-      tint: [0xffff00],
+      tint: [0xff0000],
       quantity: 50
     });
 

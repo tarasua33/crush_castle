@@ -29,6 +29,10 @@ export class Enemy extends Phaser.Physics.Matter.Image {
     this._spawnX = x;
     this._spawnY = y;
 
+    this.setSensor(false);
+    this.setIgnoreGravity(false);
+    this.setStatic(false);
+
     this.visible = true;
     this.active = true;
 
@@ -44,22 +48,32 @@ export class Enemy extends Phaser.Physics.Matter.Image {
   private _destroy(): void {
     this.eventSignal.emit(EVENTS.EXPLOSION, [this.x, this.y]);
 
-    this.setVelocity(0);
-    this.setAngularSpeed(0);
-    this.setAngularVelocity(0);
-
-    this._enemyPool.killAndHide(this);
-    this.visible = false;
-    this.active = false;
-
-    const scene = this._scene;
-    scene.matter.world.remove(this);
-    scene.matter.world.remove(this.body!);
+    this.hideObject();
   }
 
   public hit(): void {
     if (this.active) {
       this._destroy();
     }
+  }
+
+  public hideObject(): void {
+    const scene = this._scene;
+    scene.matter.world.remove(this);
+    scene.matter.world.remove(this.body!);
+
+    this.setSensor(true);
+    this.setIgnoreGravity(true);
+    this.setStatic(true);
+    this.setAngle(0);
+    this.setVelocity(0);
+    this.setAngularSpeed(0);
+    this.setAngularVelocity(0);
+    this.x = 0;
+    this.y = 0;
+
+    this._enemyPool.killAndHide(this);
+    this.visible = false;
+    this.active = false;
   }
 }

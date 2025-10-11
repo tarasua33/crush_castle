@@ -22,8 +22,8 @@ export class ExplosionParticlesFactory extends AbstractStandardFactory<Phaser.Ga
       //   source: new Phaser.Geom.Circle(400, 300, 50)
       // },
       emitting: false,
-      // tint: [0xff0000, 0x00ff00, 0x0000ff],
-      tint: [0xff0000],
+      tint: [0xff0000, 0x00ff00, 0x0000ff],
+      // tint: [0xff0000],
       quantity: 50
     });
     // Phaser.GameObjects.Particles.ParticleEmitter;

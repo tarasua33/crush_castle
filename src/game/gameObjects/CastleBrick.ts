@@ -23,6 +23,10 @@ export class CastleBrick extends Phaser.Physics.Matter.Image {
       isSensor: true
     });
 
+    this.setBounce(0)
+      .setFriction(0.8)
+      .setFrictionStatic(1);
+
     this.visible = false;
     this.active = false;
     this.setSensor(true);
@@ -50,6 +54,7 @@ export class CastleBrick extends Phaser.Physics.Matter.Image {
 
     this.setSensor(false);
     this.setIgnoreGravity(false);
+    this.setStatic(false);
 
     this._scene.matter.world.add(this.body!);
   }
@@ -79,6 +84,8 @@ export class CastleBrick extends Phaser.Physics.Matter.Image {
 
     this.setSensor(true);
     this.setIgnoreGravity(true);
+    this.setStatic(true);
+    this.setAngle(0);
     this.setVelocity(0);
     this.setAngularSpeed(0);
     this.setAngularVelocity(0);

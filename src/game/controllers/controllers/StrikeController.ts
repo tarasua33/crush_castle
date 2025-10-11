@@ -54,7 +54,9 @@ export class StrikeController extends Controller<IControllerBaseParams> {
     strikeSequence.addStepByStep(endStrikeStep, {
       scene: scene,
       enemyPool: gameView.enemies,
-      explosionParticles: gameView.explosionParticles
+      explosionParticles: gameView.explosionParticles,
+      explosionCastleParticles: gameView.explosionCastleParticles,
+      castlePool: gameView.bricks
     } as EndStrikeStepParams);
 
     strikeSequence.addStepByStep(this._awaitStep, {
