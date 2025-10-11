@@ -1,4 +1,5 @@
 import { CASTLE_BASE_X, CASTLE_BASE_Y, GAME_DIMENSIONS, MAX_MOUNTAINS_LVL, PLATFORM_HEIGHT, PLATFORM_TILE_WIDTH, PLATFORM_Y, SLING_SHOT_X, SLING_SHOT_Y } from "../../../GameConfig";
+import { CastleBrick } from "../../../gameObjects/CastleBrick";
 import { Enemy } from "../../../gameObjects/Enemy";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
 import { ILvl } from "../../../models/EnemyModel";
@@ -8,7 +9,7 @@ export interface SpawnLvlStepParams extends BaseStepParams {
   scene: Game;
   enemyPool: Phaser.GameObjects.Group;
   bullet: Phaser.Physics.Matter.Image;
-  bricks: Phaser.Physics.Matter.Image[];
+  bricks: Phaser.GameObjects.Group;
   lvl: ILvl;
   mountains: Phaser.GameObjects.TileSprite[];
 }
@@ -31,26 +32,14 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
     }
 
     const castle = lvl.castle;
-    let i = 0;
+
     for (const d of castle) {
-      const brick = bricks[i];
-      brick.rotation = d.rotation;
-      brick.setPosition(
+      const brick = bricks.get() as CastleBrick;
+      brick.spawn(
         CASTLE_BASE_X + d.x,
-        CASTLE_BASE_Y - lvl.mountains * PLATFORM_HEIGHT + d.y
+        CASTLE_BASE_Y - lvl.mountains * PLATFORM_HEIGHT + d.y,
+        d.rotation
       );
-
-      brick.visible = true;
-      brick.active = true;
-      brick.setSensor(false);
-      brick.setIgnoreGravity(false);
-      brick.setVelocity(0);
-      brick.setAngularSpeed(0);
-      brick.setAngularVelocity(0);
-
-      scene.matter.world.add(brick.body!);
-
-      i++;
     }
 
     const enemies = lvl.enemies;
@@ -60,8 +49,8 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
       enemy.spawn(
         CASTLE_BASE_X + enemyData.x,
         CASTLE_BASE_Y - lvl.mountains * PLATFORM_HEIGHT + enemyData.y,
-        enemyData.type,
-        enemyPool);
+        enemyData.type
+      );
     }
 
     bullet.setPosition(SLING_SHOT_X, SLING_SHOT_Y);

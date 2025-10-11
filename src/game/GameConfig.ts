@@ -17,6 +17,7 @@ export const TRANSFORM_ENEMY = 62;
 
 export const PLATFORM_HEIGHT = 128;
 export const PLATFORM_TILE_WIDTH = 128;
+export const TRANSFORM_BRICK = 128;
 
 export const PLATFORM_Y = heightGame * 0.9;
 

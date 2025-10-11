@@ -1,38 +1,32 @@
-import { BRICKS_NUMBER, CASTLE_BRICK_H, CASTLE_BRICK_W } from "../GameConfig";
+import { BRICKS_NUMBER } from "../GameConfig";
+import { CastleBrick } from "../gameObjects/CastleBrick";
 import { AbstractStandardFactory } from "../libs/factories/AbstractStandardFactory";
 
 interface IBuildConfig {
   scene: Phaser.Scene
 }
 
-export class CastlesFactory extends AbstractStandardFactory<Phaser.Physics.Matter.Image[]> {
-  public buildUi({ scene }: IBuildConfig): Phaser.Physics.Matter.Image[] {
-    const bricks = [];
+export class CastlesFactory extends AbstractStandardFactory<Phaser.GameObjects.Group> {
+  public buildUi({ scene }: IBuildConfig): Phaser.GameObjects.Group {
+
+    const brickPool = scene.add.group({
+      classType: CastleBrick,
+      maxSize: BRICKS_NUMBER
+    });
+
     for (let i = 0; i < BRICKS_NUMBER; i++) {
-      const brick = scene.matter.add.image(
+      const brick = new CastleBrick(
+        scene,
         0,
         0,
-        'brick_tile', undefined, { label: "block" }).setBody({
-          type: "rectangle",
-          width: CASTLE_BRICK_W,
-          height: CASTLE_BRICK_H
-        }, {
-          isSensor: true
-        });
+        "brick_tile",
+        brickPool
+      );
 
-      brick.visible = false;
-      brick.active = false;
-      brick.setSensor(true);
-      brick.setIgnoreGravity(true);
-      brick.rotation = 0;
-      brick.body!.gameObject = brick;
-
-      scene.matter.world.remove(brick);
-      scene.matter.world.remove(brick.body!);
-
-      bricks.push(brick);
+      brickPool.add(brick);
+      brickPool.killAndHide(brick);
     }
 
-    return bricks;
+    return brickPool;
   }
 }

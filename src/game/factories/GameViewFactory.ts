@@ -22,7 +22,7 @@ export interface IGameView {
   ground: Phaser.GameObjects.TileSprite;
   bullet: Phaser.Physics.Matter.Image;
   slingshotPoint: Slingshot;
-  bricks: Phaser.Physics.Matter.Image[];
+  bricks: Phaser.GameObjects.Group;
   enemies: Phaser.GameObjects.Group;
   explosionCastleParticles: Phaser.GameObjects.Particles.ParticleEmitter;
   explosionParticles: Phaser.GameObjects.Particles.ParticleEmitter;

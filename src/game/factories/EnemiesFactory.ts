@@ -21,7 +21,8 @@ export class EnemiesFactory extends AbstractStandardFactory<Phaser.GameObjects.G
         scene,
         0,
         0,
-        "enemy"
+        "enemy",
+        enemyPool
       );
       enemy.setScale(-1, 1);
       enemy.setPosition(CASTLE_BASE_X + 48, CASTLE_BASE_Y - 32);

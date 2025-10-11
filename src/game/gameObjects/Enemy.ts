@@ -9,10 +9,11 @@ export class Enemy extends Phaser.Physics.Matter.Image {
   private _spawnX = 0;
   private _spawnY = 0;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, enemyPool: Phaser.GameObjects.Group) {
     super(scene.matter.world, x, y, texture);
     this._scene = scene;
     scene.add.existing(this);
+    this._enemyPool = enemyPool;
 
     scene.matter.world.remove(this);
     scene.matter.world.remove(this.body!);
@@ -20,8 +21,8 @@ export class Enemy extends Phaser.Physics.Matter.Image {
     (this.body as MatterJS.BodyType).gameObject = this;
   }
 
-  public spawn(x: number, y: number, type: string, enemyPool: Phaser.GameObjects.Group): void {
-    this.setTexture(type);
+  public spawn(x: number, y: number, type?: string): void {
+    if (type) this.setTexture(type);
     this.setPosition(x, y);
     this.angle = 0;
 
@@ -31,7 +32,6 @@ export class Enemy extends Phaser.Physics.Matter.Image {
     this.visible = true;
     this.active = true;
 
-    this._enemyPool = enemyPool;
     this._scene.matter.world.add(this.body!);
   }
 
