@@ -29,7 +29,13 @@ export class Preloader extends Scene {
     this.load.json("lvls", "data/lvls.json");
 
     this.load.setPath('assets');
-    this.load.image('gameBg', 'game/sky.png');
+
+    this.load.image('cloud1', 'game/Cloud_1.png');
+    this.load.image('cloud2', 'game/Cloud_2.png');
+    this.load.image('hills1', 'game/Hills_1.png');
+    this.load.image('hills2', 'game/Hills_2.png');
+    this.load.image('gameBg', 'game/bg_tile.png');
+
     this.load.image('logo', 'logo.png');
     this.load.image('bgTile', 'game/GrassCliffMid.png');
     this.load.image('saw', 'game/Saw.png');

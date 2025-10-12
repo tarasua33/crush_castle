@@ -10,6 +10,8 @@ export const GAME_DIMENSIONS = {
   height: heightGame,
 };
 
+export const CLOUDS = 10;
+
 export const MAX_MOUNTAINS_LVL = 3;
 export const MAX_CONSTRAIN = 150;
 export const MAX_VELOCITY = 70;

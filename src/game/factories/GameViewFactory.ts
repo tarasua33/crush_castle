@@ -17,7 +17,7 @@ import { PlatformsFactory } from "./PlatformsFactory";
 import { SlingshotPointFactory } from "./SlingshotPointFactory";
 
 export interface IGameView {
-  bg: Phaser.GameObjects.Image;
+  bg: Phaser.GameObjects.Container;
   mountains: Phaser.GameObjects.TileSprite[];
   ground: Phaser.GameObjects.TileSprite;
   bullet: Phaser.Physics.Matter.Image;

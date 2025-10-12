@@ -25,7 +25,7 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
     // });
     for (let i = 0; i < lvl.mountains; i++) {
       const ground = mountains[MAX_MOUNTAINS_LVL - lvl.mountains + i];
-      ground.setPosition(CASTLE_BASE_X + PLATFORM_TILE_WIDTH, PLATFORM_Y - (PLATFORM_HEIGHT * (i + 1) + PLATFORM_HEIGHT / 2));
+      ground.setPosition(CASTLE_BASE_X + PLATFORM_TILE_WIDTH * 0.75, PLATFORM_Y - (PLATFORM_HEIGHT * (i + 1) + PLATFORM_HEIGHT / 2));
       ground.active = true;
       ground.visible = true;
       scene.matter.world.add(ground.body!);
@@ -40,9 +40,6 @@ export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
         CASTLE_BASE_Y - lvl.mountains * PLATFORM_HEIGHT + d.y,
         d.rotation
       );
-
-      // console.log((brick.body! as any));
-      console.log((brick.body! as any).motion);
     }
 
     const enemies = lvl.enemies;
