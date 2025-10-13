@@ -5,6 +5,7 @@ interface IBuildConfig {
 }
 
 import { Slingshot } from "../gameObjects/Slingshot";
+import { TrajectoryContainer } from "../gameObjects/TrajectoryContainer";
 import { AbstractBaseFactory } from "../libs/factories/AbstractBaseFactory";
 import { BulletFactory } from "./BulletFactory";
 import { CastlesFactory } from "./CastlesFactory";
@@ -15,6 +16,7 @@ import { GameBgFactory } from "./GameBgFactory";
 import { MountainsFactory } from "./MountainsFactory";
 import { PlatformsFactory } from "./PlatformsFactory";
 import { SlingshotPointFactory } from "./SlingshotPointFactory";
+import { TrajectoryFactory } from "./TrajectoryFactory";
 
 export interface IGameView {
   bg: Phaser.GameObjects.Container;
@@ -26,6 +28,7 @@ export interface IGameView {
   enemies: Phaser.GameObjects.Group;
   explosionCastleParticles: Phaser.GameObjects.Particles.ParticleEmitter;
   explosionParticles: Phaser.GameObjects.Particles.ParticleEmitter;
+  trajectory: TrajectoryContainer;
 }
 
 export class GameViewFactory extends AbstractBaseFactory {
@@ -41,6 +44,7 @@ export class GameViewFactory extends AbstractBaseFactory {
     const explosionParticlesFactory = new ExplosionParticlesFactory();
     const explosionParticlesCastleFactory = new ExplosionCastleParticlesFactory();
     const mountains = new MountainsFactory();
+    const trajectoryFactory = new TrajectoryFactory()
 
     const view: IGameView = {
       bg: bgFactory.buildUi({ scene }),
@@ -52,6 +56,7 @@ export class GameViewFactory extends AbstractBaseFactory {
       enemies: enemiesFactory.buildUi({ scene }),
       explosionParticles: explosionParticlesFactory.buildUi({ scene }),
       explosionCastleParticles: explosionParticlesCastleFactory.buildUi({ scene }),
+      trajectory: trajectoryFactory.buildUi({ scene })
     };
 
     return view;

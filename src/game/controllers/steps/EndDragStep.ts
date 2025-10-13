@@ -1,10 +1,11 @@
 import { PointerComponent } from "../../components/PointerComponent";
+import { TrajectoryContainer } from "../../gameObjects/TrajectoryContainer";
 // import { MAX_VELOCITY } from "../../GameConfig";
 import { BaseStep, BaseStepParams } from "../../libs/controllers/steps/BaseStep";
 
 export interface EndDragStepParams extends BaseStepParams {
   scene: Phaser.Scene;
-  // bullet: Phaser.Physics.Matter.Image;
+  trajectory: TrajectoryContainer;
   pointerComponent: PointerComponent;
 }
 
@@ -23,6 +24,8 @@ export class EndDragStep extends BaseStep<EndDragStepParams> {
     if (this._pointerComponent.isDragging) {
       this._pointerComponent.endDrag();
       this._pointerComponent.pointer = undefined;
+
+      this._params.trajectory.hide();
 
       this._onComplete();
     }

@@ -56,11 +56,13 @@ export class UserActionController extends Controller<IControllerBaseParams> {
       bullet: gameView.bullet,
       slingshotPoint: gameView.slingshotPoint,
       pointerComponent,
-      constraintComponent
+      constraintComponent,
+      trajectory: gameView.trajectory
     } as DragActionStepParams);
     dragSequence.addStepByStep(this._endDragStep, {
       scene,
-      pointerComponent
+      pointerComponent,
+      trajectory: gameView.trajectory
     });
 
     this._mng.start(sequence);
