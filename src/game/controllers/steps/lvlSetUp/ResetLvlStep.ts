@@ -1,4 +1,5 @@
 import { SLING_SHOT_X, SLING_SHOT_Y } from "../../../GameConfig";
+import { Bullet } from "../../../gameObjects/Bullet";
 import { CastleBrick } from "../../../gameObjects/CastleBrick";
 import { Enemy } from "../../../gameObjects/Enemy";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
@@ -7,7 +8,7 @@ import { Game } from "../../../scenes/Game";
 export interface ResetLvlStepParams extends BaseStepParams {
   scene: Game;
   enemyPool: Phaser.GameObjects.Group;
-  bullet: Phaser.Physics.Matter.Image;
+  bullet: Bullet[];
   bricks: Phaser.GameObjects.Group;
   mountains: Phaser.GameObjects.TileSprite[];
 }
@@ -15,7 +16,8 @@ export interface ResetLvlStepParams extends BaseStepParams {
 export class ResetLvlStep extends BaseStep<ResetLvlStepParams> {
   public start(params: ResetLvlStepParams): void {
     this._params = params;
-    const { bullet, enemyPool, bricks, mountains, scene } = params;
+    const { bullet: bullets, enemyPool, bricks, mountains, scene } = params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
 
     scene.matter.world.pause();
 
@@ -36,7 +38,8 @@ export class ResetLvlStep extends BaseStep<ResetLvlStepParams> {
       scene.matter.world.remove(ground.body!);
     }
 
-    bullet.setPosition(SLING_SHOT_X, SLING_SHOT_Y);
+    bullet.hideObject();
+    bullet.spawn(SLING_SHOT_X, SLING_SHOT_Y);
 
     // scene.matter.world.destroy();
 

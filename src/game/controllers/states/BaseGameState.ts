@@ -15,6 +15,7 @@ interface IBaseGameStateParams extends BaseStateParams {
   gameView: IGameView;
   pointerComponent: PointerComponent;
   constraintComponent: ConstraintComponent;
+  uiSignal: Phaser.Events.EventEmitter;
   scene: Game;
 }
 
@@ -79,10 +80,17 @@ export class BaseGameState extends BaseState<IBaseGameStateParams> {
   }
 
   private _playNextRound(): void {
-    const { gameView, pointerComponent, constraintComponent, scene } = this._params;
+    const { gameView, pointerComponent, constraintComponent, uiSignal, scene } = this._params;
 
     const userActionController = this._userActionController;
     userActionController.completeStepSignal.once(EVENTS.COMPLETE, this._playStrike, this);
-    userActionController.start({ gameView, pointerComponent, constraintComponent, scene, isFirst: this._firstRound });
+    userActionController.start({
+      gameView,
+      uiSignal,
+      pointerComponent,
+      constraintComponent,
+      scene,
+      isFirst: this._firstRound
+    });
   }
 }

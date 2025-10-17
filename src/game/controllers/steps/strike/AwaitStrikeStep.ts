@@ -3,7 +3,7 @@ import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseSt
 
 export interface AwaitStrikeStepParams extends BaseStepParams {
   scene: Phaser.Scene;
-  bullet: Phaser.Physics.Matter.Image;
+  bullet: Phaser.Physics.Matter.Image[];
   constraintComponent: ConstraintComponent;
 }
 
@@ -16,7 +16,8 @@ export class AwaitStrikeStep extends BaseStep<AwaitStrikeStepParams> {
   }
 
   private _worldUpdate(): void {
-    const { bullet, constraintComponent } = this._params;
+    const { bullet: bullets, constraintComponent } = this._params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
     const pos = constraintComponent.getPosition();
     bullet.setPosition(pos.x, pos.y);
   }

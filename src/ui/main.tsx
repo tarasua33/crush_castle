@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { SoundToggle } from "./buttons/SoundToggle";
 import { BulletMenu } from "./buttons/BulletMenu";
 
-export function mountUI() {
+export function mountUI(uiSignal: Phaser.Events.EventEmitter) {
   const rootEl = document.createElement("div");
   rootEl.id = "ui-layer";
   Object.assign(rootEl.style, {
@@ -20,7 +20,7 @@ export function mountUI() {
   root.render(
     <>
       <SoundToggle />
-      <BulletMenu balls={["/Saw.png", "/Mac_128.png", "/Mace_1.png"]} />
+      <BulletMenu balls={["/Saw.png", "/Mac_128.png", "/Mace_1.png"]} uiSignal={uiSignal} />
     </>
   );
 }

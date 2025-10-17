@@ -4,6 +4,7 @@ interface IBuildConfig {
   scene: Phaser.Scene;
 }
 
+import { Bullet } from "../gameObjects/Bullet";
 import { Slingshot } from "../gameObjects/Slingshot";
 import { TrajectoryContainer } from "../gameObjects/TrajectoryContainer";
 import { AbstractBaseFactory } from "../libs/factories/AbstractBaseFactory";
@@ -22,7 +23,7 @@ export interface IGameView {
   bg: Phaser.GameObjects.Container;
   mountains: Phaser.GameObjects.TileSprite[];
   ground: Phaser.GameObjects.TileSprite;
-  bullet: Phaser.Physics.Matter.Image;
+  bullet: Bullet[];
   slingshotPoint: Slingshot;
   bricks: Phaser.GameObjects.Group;
   enemies: Phaser.GameObjects.Group;

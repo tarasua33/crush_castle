@@ -7,6 +7,7 @@ import { AwaitUserActionStep, AwaitUserActionStepParams } from "../steps/AwaitUs
 import { DragActionStep, DragActionStepParams } from "../steps/DragActionStep";
 import { EndDragStep } from "../steps/EndDragStep";
 import { ResetBulletStep, ResetBulletStepParams } from "../steps/lvlSetUp/ResetBulletStep";
+import { UIListeningStep, UIListeningStepParams } from "../steps/UIListeningStep";
 
 interface IControllerBaseParams extends IControllerParams {
   gameView: IGameView;
@@ -14,16 +15,18 @@ interface IControllerBaseParams extends IControllerParams {
   scene: Phaser.Scene;
   constraintComponent: ConstraintComponent;
   isFirst: boolean;
+  uiSignal: Phaser.Events.EventEmitter;
 }
 
 export class UserActionController extends Controller<IControllerBaseParams> {
   private _awaitUserActionStep = new AwaitUserActionStep();
+  private _uiListeningStep = new UIListeningStep();
   private _endDragStep = new EndDragStep();
   private _dragActionStep = new DragActionStep();
   private _resetBulletStep = new ResetBulletStep();
 
 
-  public start({ gameView, pointerComponent, constraintComponent, isFirst, scene }: IControllerBaseParams): void {
+  public start({ gameView, uiSignal, pointerComponent, constraintComponent, isFirst, scene }: IControllerBaseParams): void {
     const sequence = [];
 
     if (isFirst) {
@@ -41,6 +44,14 @@ export class UserActionController extends Controller<IControllerBaseParams> {
 
     const waitActionSequence = new Sequence();
     sequence.push(waitActionSequence);
+
+    waitActionSequence.addAwaitPermanentStep(this._uiListeningStep, {
+      scene,
+      bullet: gameView.bullet,
+      constraintComponent,
+      uiSignal
+
+    } as UIListeningStepParams);
 
     waitActionSequence.addStepByStep(this._awaitUserActionStep, {
       scene: scene,

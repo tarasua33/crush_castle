@@ -8,7 +8,7 @@ import { Game } from "../../../scenes/Game";
 export interface SpawnLvlStepParams extends BaseStepParams {
   scene: Game;
   enemyPool: Phaser.GameObjects.Group;
-  bullet: Phaser.Physics.Matter.Image;
+  bullet: Phaser.Physics.Matter.Image[];
   bricks: Phaser.GameObjects.Group;
   lvl: ILvl;
   mountains: Phaser.GameObjects.TileSprite[];
@@ -17,7 +17,8 @@ export interface SpawnLvlStepParams extends BaseStepParams {
 export class SpawnLvlStep extends BaseStep<SpawnLvlStepParams> {
   public start(params: SpawnLvlStepParams): void {
     this._params = params;
-    const { bullet, scene, enemyPool, bricks, lvl, mountains } = params;
+    const { bullet: bullets, scene, enemyPool, bricks, lvl, mountains } = params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
 
     // scene.matter.world = new Phaser.Physics.Matter.World(scene, {
     //   gravity: { y: 1, x: 0 },

@@ -1,5 +1,6 @@
 // import { AssetsLoader } from "../utils/AssetsLoader";
 import { EnemyModel } from "../../models/EnemyModel";
+import { WeaponModel } from "../../models/WeaponModel";
 import { IModels } from "../models/IModels";
 
 export abstract class AbstractBaseFactory {
@@ -9,7 +10,8 @@ export abstract class AbstractBaseFactory {
   constructor() {
     // this._assetsLoader = AssetsLoader.getLoader();
     this._models = {
-      enemyModel: EnemyModel.getModel()
+      enemyModel: EnemyModel.getModel(),
+      weaponModel: WeaponModel.getModel(),
       // platformsModel: PlatformsModel.getModel(),
       // characterModel: CharacterModel.getModel(),
       // levelModel: LevelModel.getModel(),

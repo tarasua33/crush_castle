@@ -4,6 +4,7 @@ import { GameViewFactory } from '../factories/GameViewFactory';
 import { BaseGameState } from '../controllers/states/BaseGameState';
 import { PointerComponent } from '../components/PointerComponent';
 import { ConstraintComponent } from '../components/ConstraintComponent';
+import { mountUI } from '../../ui/main';
 
 export class Game extends Scene {
   camera: Phaser.Cameras.Scene2D.Camera;
@@ -30,13 +31,16 @@ export class Game extends Scene {
 
   private _createGame() {
     // this.matter.world.setBounds(0, 0, GAME_DIMENSIONS.width, GAME_DIMENSIONS.height);
+    const uiSignal = new Phaser.Events.EventEmitter();
+
+    mountUI(uiSignal);
     const gameView = new GameViewFactory().buildUi({ scene: this });
 
     const constraintComponent = new ConstraintComponent()
     const pointerComponent = new PointerComponent();
 
     const baseGame = new BaseGameState();
-    baseGame.start({ gameView, pointerComponent, constraintComponent, scene: this })
+    baseGame.start({ uiSignal, gameView, pointerComponent, constraintComponent, scene: this })
   }
 
   resize(gameSize: Partial<Phaser.Structs.Size>) {

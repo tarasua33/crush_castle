@@ -5,7 +5,7 @@ import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseSt
 
 export interface StartStrikeStepParams extends BaseStepParams {
   scene: Phaser.Scene;
-  bullet: Phaser.Physics.Matter.Image;
+  bullet: Phaser.Physics.Matter.Image[];
   constraintComponent: ConstraintComponent;
   slingshotPoint: Slingshot;
 }
@@ -15,7 +15,9 @@ export class StartStrikeStep extends BaseStep<StartStrikeStepParams> {
   private _previousDist = 150;
 
   public start(params: StartStrikeStepParams): void {
-    const { bullet } = this._params = params;
+    const { bullet: bullets } = this._params = params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
+
     const { scene, constraintComponent } = params;
     this._previousDist = MAX_CONSTRAIN + 10;
     params.scene.matter.world.removeConstraint(constraintComponent.constraint);
@@ -29,7 +31,8 @@ export class StartStrikeStep extends BaseStep<StartStrikeStepParams> {
   }
 
   private _worldUpdate(): void {
-    const { bullet } = this._params;
+    const bullet = this._params.bullet[this._models.weaponModel.weaponId];
+
     const slingshotContainer = this._params.slingshotPoint;
     const slingshotPoint = this._params.slingshotPoint.slingshotPoint.body!.position;
 
@@ -37,8 +40,8 @@ export class StartStrikeStep extends BaseStep<StartStrikeStepParams> {
     const angle = Math.atan2(bullet.y - slingshotPoint.y, bullet.x - slingshotPoint.x);
 
     if (
-      (this._params.bullet.body as any).speed &&
-      (this._params.bullet.body as any).speed > 0 &&
+      (bullet.body as any).speed &&
+      (bullet.body as any).speed > 0 &&
       (dist < this._trashHold || dist > this._previousDist)
     ) {
       slingshotContainer.rotateSlingshotPoint(0);

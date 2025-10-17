@@ -1,4 +1,5 @@
 import { EnemyModel } from "../../../models/EnemyModel";
+import { WeaponModel } from "../../../models/WeaponModel";
 import { EVENTS } from "../../events/Events";
 import { IModels } from "../../models/IModels";
 
@@ -14,6 +15,7 @@ export abstract class BaseStep<T extends BaseStepParams = BaseStepParams> {
 
   constructor() {
     this._models = {
+      weaponModel: WeaponModel.getModel(),
       enemyModel: EnemyModel.getModel()
     };
   }

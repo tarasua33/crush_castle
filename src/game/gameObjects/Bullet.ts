@@ -26,4 +26,41 @@ export class Bullet extends Phaser.Physics.Matter.Image {
       gameObjectA.hit();
     }
   }
+
+  public hideObject(): void {
+    // const scene = this._scene;
+    // scene.matter.world.remove(this);
+    // scene.matter.world.remove(this.body!);
+
+    this.setSensor(true);
+    this.setIgnoreGravity(true);
+    this.setStatic(true);
+    this.setAngle(0);
+    this.setVelocity(0);
+    this.setAngularSpeed(0);
+    this.setAngularVelocity(0);
+    this.x = 0;
+    this.y = 0;
+
+    this.visible = false;
+    this.active = false;
+  }
+
+  public spawn(x: number, y: number, type?: string): void {
+    if (type) this.setTexture(type);
+    this.setPosition(x, y);
+    this.angle = 0;
+
+    // this._spawnX = x;
+    // this._spawnY = y;
+
+    this.setSensor(false);
+    this.setIgnoreGravity(false);
+    this.setStatic(false);
+
+    this.visible = true;
+    this.active = true;
+
+    // this._scene.matter.world.add(this.body!);
+  }
 }

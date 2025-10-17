@@ -1,6 +1,5 @@
 import { Scene, GameObjects } from 'phaser';
 import { GAME_DIMENSIONS } from '../GameConfig';
-import { mountUI } from '../../ui/main';
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
@@ -25,10 +24,7 @@ export class MainMenu extends Scene {
     this.scale.on('resize', this.resize, this);
     this.resize({ width: window.innerWidth, height: window.innerHeight });
 
-
     this._animateLogoShow();
-
-    mountUI();
   }
 
   private _animateLogoShow() {

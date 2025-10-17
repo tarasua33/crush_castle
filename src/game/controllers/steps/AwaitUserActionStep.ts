@@ -3,7 +3,7 @@ import { BaseStep, BaseStepParams } from "../../libs/controllers/steps/BaseStep"
 
 export interface AwaitUserActionStepParams extends BaseStepParams {
   scene: Phaser.Scene;
-  bullet: Phaser.GameObjects.Image;
+  bullet: Phaser.GameObjects.Image[];
   pointerComponent: PointerComponent;
 }
 
@@ -18,7 +18,7 @@ export class AwaitUserActionStep extends BaseStep<AwaitUserActionStepParams> {
 
   private _startDrag(pointer: Phaser.Input.Pointer) {
     const worldPoint = pointer.positionToCamera(this._params.scene.cameras.main) as Phaser.Math.Vector2;
-    const bullet = this._params.bullet;
+    const bullet = this._params.bullet[this._models.weaponModel.weaponId];
 
     const dist = Phaser.Math.Distance.Between(worldPoint.x, worldPoint.y, bullet.x, bullet.y);
     if (dist < 100) {

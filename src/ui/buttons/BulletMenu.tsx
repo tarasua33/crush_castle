@@ -1,7 +1,8 @@
 import React from "react";
 import { BulletButton } from "./BulletButton";
+import { EVENTS } from "../../game/libs/events/Events";
 
-type BulletMenuProps = { balls: string[] };
+type BulletMenuProps = { balls: string[], uiSignal: Phaser.Events.EventEmitter };
 type BulletMenuState = { activeIndex: number; open: boolean };
 
 export class BulletMenu extends React.Component<BulletMenuProps, BulletMenuState> {
@@ -14,7 +15,8 @@ export class BulletMenu extends React.Component<BulletMenuProps, BulletMenuState
 
   selectBall = (i: number) => {
     this.setState({ activeIndex: i, open: false });
-    window.dispatchEvent(new CustomEvent("ball-changed", { detail: i }));
+    const { uiSignal } = this.props;
+    uiSignal.emit(EVENTS.CHANGE_BULLET, i);
   };
 
   render() {

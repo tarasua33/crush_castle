@@ -7,7 +7,7 @@ import { BaseStep, BaseStepParams } from "../../libs/controllers/steps/BaseStep"
 
 export interface DragActionStepParams extends BaseStepParams {
   scene: Phaser.Scene;
-  bullet: Phaser.GameObjects.Image;
+  bullet: Phaser.GameObjects.Image[];
   slingshotPoint: Slingshot;
   pointerComponent: PointerComponent;
   constraintComponent: ConstraintComponent;
@@ -55,7 +55,8 @@ export class DragActionStep extends BaseStep<DragActionStepParams> {
     const worldPoint = this._pointerComponent.pointer!;
 
     const slingshotPoint = this._params.slingshotPoint.slingshotPoint.body!.position;
-    const { trajectory, bullet } = this._params;
+    const { trajectory, bullet: bullets } = this._params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
 
     const basePower = Phaser.Math.Distance.Between(slingshotPoint.x, slingshotPoint.y, bullet.x, bullet.y);
     const launchPower = Phaser.Math.Clamp(basePower, -MAX_VELOCITY, MAX_VELOCITY);
@@ -83,7 +84,8 @@ export class DragActionStep extends BaseStep<DragActionStepParams> {
 
     const slingshotContainer = this._params.slingshotPoint;
     const slingshotPoint = this._params.slingshotPoint.slingshotPoint.body!.position;
-    const { bullet, constraintComponent } = this._params;
+    const { bullet: bullets, constraintComponent } = this._params;
+    const bullet = bullets[this._models.weaponModel.weaponId]
     const dist = Phaser.Math.Distance.Between(slingshotPoint.x, slingshotPoint.y, worldPoint.x, worldPoint.y);
 
     const angle = Math.atan2(worldPoint.y - slingshotPoint.y, worldPoint.x - slingshotPoint.x);
