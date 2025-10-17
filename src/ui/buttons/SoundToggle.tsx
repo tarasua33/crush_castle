@@ -17,21 +17,14 @@ export class SoundToggle extends React.Component<Props, State> {
 
   render() {
     return (
-      <div
-        style={{
-          position: "absolute",
-          top: "12px",
-          right: "12px",
-          zIndex: 1000,
-          pointerEvents: "auto",
-        }}
-      >
+      <div className="absolute top-3 right-3 z-[1000] pointer-events-auto">
         <img
           src={this.state.enabled ? "/sound-on.png" : "/sound-off.png"}
           width={48}
           height={48}
-          style={{ cursor: "pointer" }}
+          className="cursor-pointer transition-transform hover:scale-110 active:scale-95"
           onClick={this.toggle}
+          alt="Sound toggle"
         />
       </div>
     );

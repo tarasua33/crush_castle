@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { SoundToggle } from "./buttons/SoundToggle";
+import { BulletMenu } from "./buttons/BulletMenu";
 
 export function mountUI() {
   const rootEl = document.createElement("div");
@@ -16,5 +17,10 @@ export function mountUI() {
   document.body.appendChild(rootEl);
 
   const root = ReactDOM.createRoot(rootEl);
-  root.render(<SoundToggle />);
+  root.render(
+    <>
+      <SoundToggle />
+      <BulletMenu balls={["/Saw.png", "/Mac_128.png", "/Mace_1.png"]} />
+    </>
+  );
 }
