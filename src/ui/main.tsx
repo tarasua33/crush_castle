@@ -20,7 +20,7 @@ export function mountUI(uiSignal: Phaser.Events.EventEmitter) {
   root.render(
     <>
       <SoundToggle />
-      <BulletMenu balls={["/Saw.png", "/Mac_128.png", "/Mace_1.png"]} uiSignal={uiSignal} />
+      <BulletMenu balls={["Saw.png", "Mac_128.png", "Mace_1.png"]} uiSignal={uiSignal} />
     </>
   );
 }
