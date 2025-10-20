@@ -42,6 +42,7 @@ export class SlingshotPointFactory extends AbstractStandardFactory<Slingshot> {
         scaleY: 0
       },
       slingshotPointConfig: {
+        tint: 0x00FF00,
         texture: "slingshotPoint_point",
         x: SLING_SHOT_X,
         y: SLING_SHOT_Y,

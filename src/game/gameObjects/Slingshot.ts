@@ -8,6 +8,7 @@ interface ImageConfig {
   },
   scaleX?: number;
   scaleY?: number;
+  tint?: number
 }
 
 interface SlingshotConfig {
@@ -51,6 +52,7 @@ export class Slingshot extends Phaser.GameObjects.Container {
       isSensor: true,
       render: { visible: true }
     });
+    if (slingshotPointConfig.tint) slingshotPoint.tint = slingshotPointConfig.tint;
     slingshotPoint.setScale(slingshotPointConfig.scaleX || 1, slingshotPointConfig.scaleY || 1);
   }
 
