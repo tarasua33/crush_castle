@@ -45,7 +45,7 @@ export class UIListeningStep extends BaseStep<UIListeningStepParams> {
   }
 
   protected _onComplete(): void {
-    this._params.uiSignal.off(EVENTS.CHANGE_BULLET, this._changeBullet);
+    this._params.uiSignal.off(EVENTS.CHANGE_BULLET, this._changeBullet, this);
 
     super._onComplete();
   }

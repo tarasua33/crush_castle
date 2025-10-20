@@ -1,18 +1,22 @@
 import React from "react";
+import { EVENTS } from "../../game/libs/events/Events";
 
-type Props = {};
+type Props = { uiSignal: Phaser.Events.EventEmitter };
 type State = { enabled: boolean };
 
 export class SoundToggle extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { enabled: true };
+
+    this.props.uiSignal.emit(EVENTS.SOUND_BUTTON, true);
   }
 
   toggle = () => {
     const enabled = !this.state.enabled;
     this.setState({ enabled });
-    window.dispatchEvent(new CustomEvent("toggle-sound", { detail: enabled }));
+
+    this.props.uiSignal.emit(EVENTS.SOUND_BUTTON, enabled);
   };
 
   render() {

@@ -5,9 +5,13 @@ import { BaseGameState } from '../controllers/states/BaseGameState';
 import { PointerComponent } from '../components/PointerComponent';
 import { ConstraintComponent } from '../components/ConstraintComponent';
 import { mountUI } from '../../ui/main';
+import { AudioComponent, Sounds } from '../components/AudioComponent';
+import { EVENTS } from '../libs/events/Events';
 
 export class Game extends Scene {
-  camera: Phaser.Cameras.Scene2D.Camera;
+  public camera: Phaser.Cameras.Scene2D.Camera;
+  public audioComponent: AudioComponent;
+
   private _scale = 1;
 
   constructor() {
@@ -31,9 +35,11 @@ export class Game extends Scene {
 
   private _createGame() {
     // this.matter.world.setBounds(0, 0, GAME_DIMENSIONS.width, GAME_DIMENSIONS.height);
-    const uiSignal = new Phaser.Events.EventEmitter();
 
+    const uiSignal = new Phaser.Events.EventEmitter();
+    this._initAudio(uiSignal);
     mountUI(uiSignal);
+
     const gameView = new GameViewFactory().buildUi({ scene: this });
 
     const constraintComponent = new ConstraintComponent()
@@ -41,6 +47,17 @@ export class Game extends Scene {
 
     const baseGame = new BaseGameState();
     baseGame.start({ uiSignal, gameView, pointerComponent, constraintComponent, scene: this })
+  }
+
+  private _initAudio(uiSignal: Phaser.Events.EventEmitter): void {
+    const audioComponent = this.audioComponent = AudioComponent.getComponent(this);
+    audioComponent.play(Sounds.Ambient, true);
+
+    uiSignal.on(EVENTS.SOUND_BUTTON, this._muteAudio, this);
+  }
+
+  private _muteAudio(enabled: boolean): void {
+    this.audioComponent.toggleAudio(enabled);
   }
 
   resize(gameSize: Partial<Phaser.Structs.Size>) {

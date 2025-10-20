@@ -28,6 +28,10 @@ export class Preloader extends Scene {
     //  Load the assets for the game - Replace with your own assets
     this.load.json("lvls", "data/lvls.json");
 
+    this.load.audio('ambient-spring', [
+      'audio/ambient-spring.mp3'
+    ]);
+
     this.load.setPath('assets');
 
     this.load.image('cloud1', 'game/Cloud_1.png');
@@ -50,7 +54,6 @@ export class Preloader extends Scene {
     this.load.image('enemy', 'game/enemy.png');
     this.load.image('mace', 'game/Mace.png');
     this.load.image('spark', 'game/spark.png');
-
   }
 
   create() {

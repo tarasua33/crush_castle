@@ -19,7 +19,7 @@ export function mountUI(uiSignal: Phaser.Events.EventEmitter) {
   const root = ReactDOM.createRoot(rootEl);
   root.render(
     <>
-      <SoundToggle />
+      <SoundToggle uiSignal={uiSignal} />
       <BulletMenu balls={["Saw.png", "Mac_128.png", "Mace_1.png"]} uiSignal={uiSignal} />
     </>
   );
