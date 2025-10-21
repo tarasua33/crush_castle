@@ -15,6 +15,8 @@ export class UIListeningStep extends BaseStep<UIListeningStepParams> {
     this._params = params;
     const { uiSignal } = params;
 
+    uiSignal.emit(EVENTS.CHANGE_BULLET_AVAILABLE, true);
+
     uiSignal.on(EVENTS.CHANGE_BULLET, this._changeBullet, this);
   }
 
@@ -45,7 +47,11 @@ export class UIListeningStep extends BaseStep<UIListeningStepParams> {
   }
 
   protected _onComplete(): void {
-    this._params.uiSignal.off(EVENTS.CHANGE_BULLET, this._changeBullet, this);
+    const { uiSignal } = this._params;
+
+    uiSignal.emit(EVENTS.CHANGE_BULLET_AVAILABLE, false);
+
+    uiSignal.off(EVENTS.CHANGE_BULLET, this._changeBullet, this);
 
     super._onComplete();
   }

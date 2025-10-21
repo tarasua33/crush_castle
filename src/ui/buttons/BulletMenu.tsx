@@ -6,17 +6,40 @@ type BulletMenuProps = { balls: string[], uiSignal: Phaser.Events.EventEmitter }
 type BulletMenuState = { activeIndex: number; open: boolean };
 
 export class BulletMenu extends React.Component<BulletMenuProps, BulletMenuState> {
+  private _available = false;
   constructor(props: BulletMenuProps) {
     super(props);
+
+    this._available = false;
+    const { uiSignal } = props;
     this.state = { activeIndex: 0, open: false };
+
+    uiSignal.on(EVENTS.CHANGE_BULLET_AVAILABLE, this.toggleAvailable, this);
   }
 
-  toggleMenu = () => this.setState((prev) => ({ open: !prev.open }));
+  toggleAvailable = (available: boolean) => {
+    this._available = available;
+  }
+
+  toggleMenu = () => {
+    if (!this.state.open) {
+      if (this._available) {
+        this.setState((prev) => ({ open: !prev.open }));
+      }
+    }
+    else {
+      this.setState((prev) => ({ open: !prev.open }));
+    }
+  }
 
   selectBall = (i: number) => {
-    this.setState({ activeIndex: i, open: false });
-    const { uiSignal } = this.props;
-    uiSignal.emit(EVENTS.CHANGE_BULLET, i);
+    if (this._available) {
+      this.setState({ activeIndex: i, open: false });
+      const { uiSignal } = this.props;
+      uiSignal.emit(EVENTS.CHANGE_BULLET, i);
+    } else {
+      this.setState({ open: false });
+    }
   };
 
   render() {
