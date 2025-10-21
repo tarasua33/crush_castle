@@ -31,7 +31,7 @@ export const CASTLE_BRICK_H = 32;
 export const SLING_SHOT_Y = CASTLE_BASE_Y - MAX_CONSTRAIN - 60;
 export const SLING_SHOT_X = 375;
 
-export const BULLET_MASS = [20, 40, 60];
+export const BULLET_MASS = [10, 30, 60];
 
 export const BRICKS_NUMBER = 8;
 
