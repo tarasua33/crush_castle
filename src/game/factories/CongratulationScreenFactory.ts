@@ -15,12 +15,14 @@ export class CongratulationScreenFactory extends AbstractStandardFactory<Congrat
     const particleConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
       x: 0,
       y: 0,
-      speed: { min: 100, max: 500 },
-      angle: { min: 0, max: 360 },
-      lifespan: 3100,
-      scale: { start: 0, end: 1 },
+      speed: { min: 300, max: 700 },
+      angle: { min: -115, max: -65 },
+      gravityY: 900,
+      // duration: 100,
+      lifespan: { min: 1200, max: 2200 },
+      rotate: { min: -360, max: 360 },
       alpha: { start: 1, end: 0 },
-      gravityY: 400,
+      scale: { start: 0, end: 1 },
       // blendMode: 'ADD',
       emitting: false,
       tint: [0xff0000, 0x00ff00, 0x0000ff, 0xFDD836],
@@ -48,7 +50,7 @@ export class CongratulationScreenFactory extends AbstractStandardFactory<Congrat
         },
         {
           x: 0,
-          y: -150,
+          y: -175,
           texture: starTextureName
         },
         {
@@ -59,7 +61,7 @@ export class CongratulationScreenFactory extends AbstractStandardFactory<Congrat
       ],
       congratulationParticles: [
         {
-          x: 0, y: GAME_DIMENSIONS.height / 2,
+          x: 0, y: 0,
           texture: confetti,
           config: particleConfig
         }

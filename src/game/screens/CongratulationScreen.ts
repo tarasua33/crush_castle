@@ -50,43 +50,56 @@ export class CongratulationScreen extends Phaser.GameObjects.Container {
 
       this._particles.push(particles);
     }
+
+    this.reset();
   }
 
   public show(): void {
-    this._text.scale = 5;
+    this.visible = true;
+
+    const text = this._text;
+    // text.alpha = 0;
+    text.scale = 10;
 
     this.scene.tweens.add({
-      targets: this._text,
+      targets: text,
       scale: 1,
-      duration: 600,
+      // alpha: 1,
+      duration: 800,
       ease: 'Bounce.easeOut',
-      onComplete: this._onTextShowComplete.bind(this)
+      // onComplete: this._onTextShowComplete.bind(this)
     });
 
     const stars = this._stars;
-    for (let i = 0; i < this._stars.length; i++) {
-      stars[i].scale = 5;
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].scale = 10;
+      stars[i].alpha = 0;
 
       this.scene.tweens.add({
-        targets: stars,
+        targets: stars[i],
         scale: 1,
-        duration: 600,
-        delay: 500 * i,
+        alpha: 1,
+        duration: 400,
+        delay: 800 + 250 * i,
         ease: 'Bounce.easeOut',
-        onComplete: this._onStarsShowComplete.bind(this)
+        onComplete: i === stars.length - 1 ? this._onStarsShowComplete.bind(this) : undefined
       });
     }
   }
 
-  private _onTextShowComplete() {
-    const particles = this._particles;
+  // private _onTextShowComplete() {
+  //   const particles = this._particles;
 
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].explode();
-    }
-  }
+  //   for (let i = 0; i < particles.length; i++) {
+  //     particles[i].explode();
+  //   }
+  // }
 
   private _onStarsShowComplete() {
     this.animationComplete.emit(EVENTS.COMPLETE);
+  }
+
+  public reset(): void {
+    this.visible = false;
   }
 }

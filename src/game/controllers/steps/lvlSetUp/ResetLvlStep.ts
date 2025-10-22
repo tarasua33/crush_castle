@@ -4,6 +4,7 @@ import { CastleBrick } from "../../../gameObjects/CastleBrick";
 import { Enemy } from "../../../gameObjects/Enemy";
 import { BaseStep, BaseStepParams } from "../../../libs/controllers/steps/BaseStep";
 import { Game } from "../../../scenes/Game";
+import { CongratulationScreen } from "../../../screens/CongratulationScreen";
 
 export interface ResetLvlStepParams extends BaseStepParams {
   scene: Game;
@@ -11,12 +12,14 @@ export interface ResetLvlStepParams extends BaseStepParams {
   bullet: Bullet[];
   bricks: Phaser.GameObjects.Group;
   mountains: Phaser.GameObjects.TileSprite[];
+  congratulationScreen: CongratulationScreen;
+
 }
 
 export class ResetLvlStep extends BaseStep<ResetLvlStepParams> {
   public start(params: ResetLvlStepParams): void {
     this._params = params;
-    const { bullet: bullets, enemyPool, bricks, mountains, scene } = params;
+    const { bullet: bullets, enemyPool, bricks, mountains, scene, congratulationScreen } = params;
     const bullet = bullets[this._models.weaponModel.weaponId]
 
     scene.matter.world.pause();
@@ -42,6 +45,7 @@ export class ResetLvlStep extends BaseStep<ResetLvlStepParams> {
     bullet.spawn(SLING_SHOT_X, SLING_SHOT_Y);
 
     // scene.matter.world.destroy();
+    congratulationScreen.reset();
 
     this._onComplete()
   }
