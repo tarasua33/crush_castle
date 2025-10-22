@@ -4,14 +4,15 @@ import { Controller, IControllerParams } from "../../libs/controllers/Controller
 import { Sequence } from "../../libs/controllers/Sequence";
 import { AwaitStep, AwaitStepParams } from "../../libs/controllers/steps/AwaitStep";
 import { EVENTS } from "../../libs/events/Events";
-import { AwaitStrikeStep } from "../steps/strike/AwaitStrikeStep";
+import { Game } from "../../scenes/Game";
+import { AwaitStrikeStep, AwaitStrikeStepParams } from "../steps/strike/AwaitStrikeStep";
 import { EndStrikeStep, EndStrikeStepParams } from "../steps/strike/EndStrikeStep";
 import { PreparationStrikeStep, PreparationStrikeStepParams } from "../steps/strike/PreparationStrikeStep";
 import { StartStrikeStep, StartStrikeStepParams } from "../steps/strike/StartStrikeStep";
 
 interface IControllerBaseParams extends IControllerParams {
   gameView: IGameView;
-  scene: Phaser.Scene;
+  scene: Game;
   constraintComponent: ConstraintComponent;
 }
 
@@ -32,7 +33,7 @@ export class StrikeController extends Controller<IControllerBaseParams> {
       scene: scene,
       bullet: gameView.bullet,
       constraintComponent
-    });
+    } as AwaitStrikeStepParams);
 
     preStrikeSequence.addStepByStep(this._preparationStrikeStep, {
       scene: scene,

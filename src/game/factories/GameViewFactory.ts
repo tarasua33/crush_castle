@@ -8,8 +8,10 @@ import { Bullet } from "../gameObjects/Bullet";
 import { Slingshot } from "../gameObjects/Slingshot";
 import { TrajectoryContainer } from "../gameObjects/TrajectoryContainer";
 import { AbstractBaseFactory } from "../libs/factories/AbstractBaseFactory";
+import { CongratulationScreen } from "../screens/CongratulationScreen";
 import { BulletFactory } from "./BulletFactory";
 import { CastlesFactory } from "./CastlesFactory";
+import { CongratulationScreenFactory } from "./CongratulationScreenFactory";
 import { EnemiesFactory } from "./EnemiesFactory";
 import { ExplosionCastleParticlesFactory } from "./ExplosionCastleParticlesFactory";
 import { ExplosionParticlesFactory } from "./ExplosionParticlesFactory";
@@ -30,6 +32,7 @@ export interface IGameView {
   explosionCastleParticles: Phaser.GameObjects.Particles.ParticleEmitter;
   explosionParticles: Phaser.GameObjects.Particles.ParticleEmitter;
   trajectory: TrajectoryContainer;
+  congratulationScreen: CongratulationScreen;
 }
 
 export class GameViewFactory extends AbstractBaseFactory {
@@ -45,7 +48,8 @@ export class GameViewFactory extends AbstractBaseFactory {
     const explosionParticlesFactory = new ExplosionParticlesFactory();
     const explosionParticlesCastleFactory = new ExplosionCastleParticlesFactory();
     const mountains = new MountainsFactory();
-    const trajectoryFactory = new TrajectoryFactory()
+    const trajectoryFactory = new TrajectoryFactory();
+    const congratulationScreenFactory = new CongratulationScreenFactory();
 
     const view: IGameView = {
       bg: bgFactory.buildUi({ scene }),
@@ -57,7 +61,8 @@ export class GameViewFactory extends AbstractBaseFactory {
       enemies: enemiesFactory.buildUi({ scene }),
       explosionParticles: explosionParticlesFactory.buildUi({ scene }),
       explosionCastleParticles: explosionParticlesCastleFactory.buildUi({ scene }),
-      trajectory: trajectoryFactory.buildUi({ scene })
+      trajectory: trajectoryFactory.buildUi({ scene }),
+      congratulationScreen: congratulationScreenFactory.buildUi({ scene })
     };
 
     return view;

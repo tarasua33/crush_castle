@@ -31,7 +31,6 @@ export class MainMenu extends Scene {
     const baseWidth = GAME_DIMENSIONS.width;
     const baseHeight = GAME_DIMENSIONS.height;
 
-    // Front-facing drop: start large then bounce to 1.0 scale
     this.logo.setAlpha(1);
     this.logo.setScale(5.8);
     this.logo.setPosition(baseWidth / 2, baseHeight / 2);
@@ -46,7 +45,6 @@ export class MainMenu extends Scene {
   }
 
   private _onLogoShowComplete() {
-    // After a short delay, animate hide
     this._animateLogoHide()
   }
 
@@ -54,10 +52,9 @@ export class MainMenu extends Scene {
     const baseWidth = GAME_DIMENSIONS.width;
     const baseHeight = GAME_DIMENSIONS.height;
 
-    // Scale up to cover screen and fade out
     const maxDimension = Math.max(baseWidth, baseHeight);
     const logoSize = Math.max(this.logo.width, this.logo.height);
-    const targetScale = (maxDimension * 1.2) / logoSize; // overshoot to ensure full cover
+    const targetScale = (maxDimension * 1.2) / logoSize;
 
     this.tweens.add({
       targets: this.logo,
@@ -92,7 +89,6 @@ export class MainMenu extends Scene {
     this.cameras.main.setZoom(scale);
     this.cameras.main.centerOn(baseWidth / 2, baseHeight / 2);
 
-    // Adjust background scale based on computed scale
     this.background.setScale(1 / scale);
   }
 }
