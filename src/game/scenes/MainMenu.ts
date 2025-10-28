@@ -38,7 +38,7 @@ export class MainMenu extends Scene {
     this.tweens.add({
       targets: this.logo,
       scale: 1,
-      duration: 600,
+      duration: 1500,
       ease: 'Bounce.easeOut',
       onComplete: this._onLogoShowComplete.bind(this)
     });
@@ -89,6 +89,6 @@ export class MainMenu extends Scene {
     this.cameras.main.setZoom(scale);
     this.cameras.main.centerOn(baseWidth / 2, baseHeight / 2);
 
-    this.background.setScale(1 / scale);
+    this.background.setScale((1 / scale) * 2);
   }
 }
